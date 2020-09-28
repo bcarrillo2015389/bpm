@@ -1,0 +1,7 @@
+{
+  "name": "bpm",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
