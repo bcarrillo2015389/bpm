@@ -1,0 +1,6 @@
+<ion-list>
+  <ion-item *ngFor="let option of options | async" (click)="onClick(option.redirectTo)">
+    <ion-icon slot="start" [name]="option.icon" color="primary"></ion-icon>
+    <ion-label>{{ option.description }}</ion-label>
+  </ion-item>
+</ion-list>

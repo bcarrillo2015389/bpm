@@ -1,0 +1,70 @@
+<!--Cards-->
+<ion-grid fixed>
+  <ion-row>
+    <ion-col  size="12" size-lg="3" size-md="4" size-sm="6" size-xs="12"
+    *ngFor="let item of items; let i = index">
+    
+      <ion-card>
+        <ion-card-header>
+
+          <div style="float: right;">
+            <ion-icon color="danger" (click)="handleCloseTicket()" name="close-circle" class="delete-icon"></ion-icon>&nbsp;
+            <ion-icon color="tertiary" (click)="handleTramiteTicket(item.codigo)" name="chevron-forward-circle" class="tramite-icon"></ion-icon>
+          </div>
+      
+          <ion-card-title color="primary" style="position: absolute;">{{i+1}} | Ticket</ion-card-title>
+          <hr>
+          <ion-card-subtitle style="position: absolute;">Código {{item.codigo}}</ion-card-subtitle>
+          
+        </ion-card-header>
+          <hr>
+          
+        <ion-card-content>
+          <ion-list>
+            
+            <ion-item lines="none">
+              <ion-label style="font-size: 13px; color: gray;">
+                Incidente:
+              </ion-label>
+              <ion-text color="dark" style="font-size: 13.5px;">{{item.incidente}}</ion-text>
+              <ion-icon slot="end" name="hammer" color="primary"></ion-icon>
+            </ion-item>
+
+            <ion-item lines="none">
+              <ion-label style="font-size: 13px; color: gray;">
+                Status:
+              </ion-label>
+              <ion-text color="dark" style="font-size: 13.5px;">{{item.status}}</ion-text>
+              <ion-icon slot="end" name="alert" color="primary"></ion-icon>
+            </ion-item>
+
+            <ion-item lines="none">
+              <ion-label style="font-size: 13px; color: gray;">
+                Prioridad:
+              </ion-label>
+              <ion-text color="dark" style="font-size: 13.5px;">{{item.prioridad}}</ion-text>
+              <ion-icon slot="end" name="document-attach" color="primary"></ion-icon>
+            </ion-item>
+
+            <ion-item lines="none">
+              <ion-label style="font-size: 13px; color: gray;">
+                Categoría:
+              </ion-label>
+              <ion-text color="dark" style="font-size: 13.5px;">{{item.categoria}}</ion-text>
+              <ion-icon slot="end" name="bookmarks" color="primary"></ion-icon>
+            </ion-item>
+
+            <ion-item lines="none">
+              <ion-label style="font-size: 13px; color: gray;">
+                Fecha apertura:
+              </ion-label>
+              <ion-text color="dark" style="font-size: 13.5px;">{{item.fecha}}</ion-text>
+              <ion-icon slot="end" name="calendar" color="primary"></ion-icon>
+            </ion-item>
+
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>

@@ -1,0 +1,43 @@
+ion-item {
+    --border-color: transparent !important;
+    --background: #F4F3EF;
+    border-radius: 14px;
+    margin-bottom: 14px;
+    margin-top: 14px;
+}
+
+ion-card {
+    background-color: #FFF;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+ion-card-header{
+    height: 30px;
+}
+
+.icon-toolbar{
+    margin-left: 5%;
+    width: 20px;
+    height: 20px;
+}
+
+.label-text{
+    color: gray;
+    font-size: 11px;
+    margin-left: 5px;
+}
+  
+.input-text{
+    font-size: 13px;
+}
+
+.textArea-text{
+    border-radius: 10px;
+    font-size: 13px;
+    text-align: justify;
+}
+
+ion-textarea{
+    background-color: #F4F3EF;
+}

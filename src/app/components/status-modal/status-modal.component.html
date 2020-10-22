@@ -1,0 +1,52 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-icon slot="start" name="cog" class="icon-toolbar"></ion-icon>
+    <ion-title>Cambiar de Status</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+
+    <ion-card-content>
+        <!--Nuevo Status-->
+        <ion-label class="label-text">Prioridad</ion-label>
+          <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box">
+            <ion-select-option value="reportado">Reportado</ion-select-option>
+            <ion-select-option value="recibido">Recibido</ion-select-option>
+            <ion-select-option value="en-proceso">En proceso</ion-select-option>
+            <ion-select-option value="solucionado">Solucionado</ion-select-option>
+            <ion-select-option value="cancelado">Cancelado</ion-select-option>
+            <ion-select-option value="espera">Espera</ion-select-option>
+          </ion-select>
+
+        <!--Usuario que tramita-->
+        <ion-label class="label-text">Usuario que tramita</ion-label>
+        <ion-item lines="none">
+          <ion-input disabled="false" type="text" name="usuario" class="input-text" [(ngModel)]="user"></ion-input>
+        </ion-item>
+
+        <!--Observaciones o comentarios-->
+        <ion-label class="label-text">Observaciones o comentarios</ion-label>
+        <ion-item lines="none">
+          <ion-textarea id="areaDescripcion" name="descripcion" [(ngModel)]="description"
+          disabled="false" rows="5" cols="1000" class="textArea-text textArea">
+        </ion-textarea>
+        </ion-item>
+        <hr>
+
+      <ion-button expand="block" class="list-button" color="dark" type="submit"
+      (click)="saveStatus()">
+        <ion-icon slot="start" name="save"></ion-icon>
+        Guardar
+      </ion-button>
+
+      <ion-button expand="block" class="list-button" color="danger" type="reset"
+      (click)="closeModal()">
+        <ion-icon slot="start" name="close-circle"></ion-icon>
+        Cancelar
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>

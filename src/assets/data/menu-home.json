@@ -1,0 +1,15 @@
+[
+    {
+        "description":"Perfil",
+        "icon":"person",
+        "redirectTo":"perfil"
+    },{
+        "description":"Contraseña",
+        "icon":"key",
+        "redirectTo":"password"
+    },{
+        "description":"Cerrar sesión",
+        "icon":"power",
+        "redirectTo":"login"
+    }
+]

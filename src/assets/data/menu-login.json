@@ -1,0 +1,12 @@
+[
+    {
+        "description":"Contactar al Administrador",
+        "icon":"people",
+        "redirectTo":"contacto-administrador"
+    },
+    {
+        "description":"Recuperar Contraseña",
+        "icon":"key",
+        "redirectTo":"recuperar-password"
+    }
+]

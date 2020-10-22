@@ -24,3 +24,65 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.action-item span, .action-item .sc-ion-action-sheet-md  {
+    color:var(--ion-color-primary) !important;
+}
+
+.cancel-item span, .cancel-item .sc-ion-action-sheet-md  {
+    color:red !important;
+}
+
+.popover-item .popover-content {
+    --width:auto !important;
+  }
+  
+  .style-alert .alert-wrapper {
+
+    h2{
+      color:var(--ion-color-primary) !important;
+      text-align: center;
+      font-size: 15.9px;
+    }
+  
+    div{
+      font-size: 14px;
+      color: var(--ion-color-dark);
+    }
+  
+    button{
+      align-self: center;
+      background-color: var(--ion-color-success);
+      color: white;
+      border-radius: 5px;
+    }
+  
+    .secondary-button{
+      align-self: center;
+      background-color: var(--ion-color-danger);
+      color: white;
+      border-radius: 5px;
+    }
+  }
+
+  .textArea{
+    --padding-top:0;
+  }
+
+  ion-modal.modal-status {
+    .modal-wrapper{
+        width: 100% !important;
+        border-top-left-radius: 25px;
+        border-top-right-radius: 25px;
+        margin-top: 10vh;
+    }
+    &.bottom {
+        align-items: flex-end !important;
+    }
+
+    --height: 90vh;
+  }
+
+  ion-select{
+    color:var(--ion-color-dark);
+  }

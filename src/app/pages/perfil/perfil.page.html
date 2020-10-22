@@ -1,0 +1,74 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="dark">
+
+    <ion-buttons slot="start">
+      <ion-back-button color="primary" defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+
+    <ion-icon slot="start" name="person-circle" class="icon-toolbar"></ion-icon>
+    <ion-title>Perfil de Usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-card>
+  <ion-card-header></ion-card-header>
+  
+  <ion-avatar>
+    <img [src]="photo || default">
+  </ion-avatar>
+
+  <ion-card-content>
+
+    <hr>
+    <hr>
+    <h1 style="text-align: center; font-size: 17px; color: black;"><b>{{principalName}}</b></h1>
+    <hr>
+    <hr>
+
+  <ion-button expand="block" class="picture-button" color="light" (click)="takePicture()">
+    <ion-icon slot="start" name="camera"></ion-icon>
+    Cambiar
+  </ion-button>
+  <hr>
+  <hr>
+  
+    <!-- Profile form -->
+    <form (ngSubmit)="updateProfile()">
+    <!--Nombre y apellido-->
+    <ion-label class="label-text">Nombre y Apellido</ion-label>
+    <ion-item lines="none">
+      <ion-icon name="person" style="zoom:0.8;" color="primary"></ion-icon> &nbsp;&nbsp;
+      <ion-input disabled="false" type="text" [(ngModel)]="name" name="name" class="input-text" clearInput></ion-input>
+    </ion-item>
+
+    <!--Email-->
+    <ion-label class="label-text">Dirección de email</ion-label>
+    <ion-item lines="none">
+      <ion-icon name="mail" style="zoom:0.8;" color="primary"></ion-icon> &nbsp;&nbsp;
+      <ion-input disabled="false" type="email" [(ngModel)]="email" name="email" class="input-text" clearInput></ion-input>
+    </ion-item>
+
+    <!--Teléfono-->
+    <ion-label class="label-text">Teléfono</ion-label>
+    <ion-item lines="none">
+      <ion-icon name="call" style="zoom:0.8;" color="primary"></ion-icon> &nbsp;&nbsp;
+      <ion-input disabled="false" type="number" [(ngModel)]="phone" name="asunto" class="input-text" clearInput></ion-input>
+    </ion-item>
+
+    <hr>
+
+    <!--Botón de formulario-->
+    <ion-button expand="block" class="list-button" color="primary" (click)="cleanInputs()">
+      <ion-icon slot="start" name="color-wand"></ion-icon>
+      Limpiar
+    </ion-button>
+
+    <ion-button expand="block" class="list-button" type="submit" color="dark">
+      <ion-icon slot="start" name="save"></ion-icon>
+      Guardar
+    </ion-button>
+  </form>
+  </ion-card-content>
+</ion-card>
+</ion-content>

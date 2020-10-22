@@ -1,0 +1,55 @@
+.icon-toolbar{
+    margin-left: 5%;
+    width: 20px;
+    height: 20px;
+}
+
+ion-card-header{
+    --background:url('../../../assets/img/bg-contact.jpg') no-repeat center center / cover;
+    height: 100px;
+    border-radius: 5px;
+}
+
+ion-card{
+    margin-top: 40px;
+    background-color: #FFF;
+    margin-left: 7%;
+    margin-right: 7%;
+}
+
+ion-avatar{
+    position: relative;
+    margin: auto;
+    top: -50px;
+    margin-bottom: -65px;
+    width: 100px;
+    height: 100px;
+    box-shadow: 0 0 0 12px #F0F0F0;
+}
+
+.label-text{
+    color: gray;
+    font-size: 10px;
+}
+    
+.input-text{
+    font-size: 13px;
+}
+
+.list-button{
+    margin-left: 7.5%;
+    margin-right: 7.5%;
+}
+
+.picture-button{
+    margin-left: 7.5%;
+    margin-right: 7.5%;
+}
+
+ion-item {
+    --border-color: transparent !important;
+    --background: #F4F3EF;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    margin-top: 12px;
+}

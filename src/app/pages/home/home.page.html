@@ -1,0 +1,48 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="dark">
+    
+    <ion-buttons slot="start">
+      <ion-button (click)="presentPopover($event)" color="primary">
+        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-icon slot="start" name="briefcase" class="icon-toolbar"></ion-icon>
+
+    <ion-title>Problem Sweeper</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <hr>
+  <hr>
+
+  <!--Botones-->
+  <ion-button class="list-button" expand="full" (click)="newTicket()">
+    <ion-icon slot="start" name="add"></ion-icon>
+    <ion-label>Nuevo Ticket</ion-label>
+  </ion-button>
+
+  <ion-button class="list-button" expand="full" (click)="assignedTickets()">
+    <ion-icon slot="start" name="alert-circle"></ion-icon>
+    <ion-label>Tickets Asignados</ion-label>
+  </ion-button>
+
+  <ion-button class="list-button" expand="full" (click)="tickets()">
+    <ion-icon slot="start" name="information-circle"></ion-icon>
+    <ion-label>Mis tickets</ion-label>
+  </ion-button>
+
+  <hr>
+  <hr>
+  <div style="margin-left: 7.5%;">
+    <ion-icon name="alert-circle" style="zoom:1.4;"></ion-icon>
+  </div>
+
+  <div>
+    <h1 class="titulo-principal"><b>Tickets asignados</b></h1>
+  </div>
+
+  <app-tickets-grid></app-tickets-grid>
+
+</ion-content>
