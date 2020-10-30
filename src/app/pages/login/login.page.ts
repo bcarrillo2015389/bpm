@@ -66,7 +66,7 @@ export class LoginPage implements OnInit {
           }
           
           //Almecanar token en Storage
-          this.token = new UserModel(res.data.codigo, res.data.rol, res.data.sedes_in, res.data.categorias_in, res.data.dominio);
+          this.token = new UserModel(res.data.codigo, res.data.nombre, res.data.rol, res.data.sedes_in, res.data.categorias_in, res.data.dominio);
           this.storage.set('token',this.token);
 
           //Enrutamiento a home

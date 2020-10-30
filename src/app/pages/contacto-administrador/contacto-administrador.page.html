@@ -42,10 +42,11 @@
       </ion-item>
 
       <!--Su Mensaje-->
-      <ion-item lines="none">
-        <ion-textarea id="areaMensaje" name="areaMensaje" placeholder=" ⌨ Su Mensaje" 
-        [(ngModel)]="message" rows="5" cols="1000" class="textArea-text textArea">
-      </ion-textarea>
+      <ion-label class="label-text">Descripción</ion-label>
+      <ion-item lines="none" class="input-item">
+        <ion-textarea id="areaMensaje" name="areaMensaje" placeholder="⌨ Su Mensaje" 
+          [(ngModel)]="message" rows="4" cols="1000" class="textArea-text textArea">
+        </ion-textarea>
       </ion-item>
 
       <hr>

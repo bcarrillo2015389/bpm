@@ -26,7 +26,7 @@
 
       <ion-item>
         <ion-label style="font-size: 13px; color: gray;">Sede</ion-label>
-        <ion-select okText="Guardar" cancelText="Cancelar">
+        <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box">
           <ion-select-option value="sede1">Sede 1</ion-select-option>
           <ion-select-option value="sede2">Sede 2</ion-select-option>
           <ion-select-option value="sede3">Sede 3</ion-select-option>
@@ -36,7 +36,7 @@
 
       <ion-item>
         <ion-label style="font-size: 13px; color: gray;">Sector</ion-label>
-        <ion-select okText="Guardar" cancelText="Cancelar">
+        <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box">
           <ion-select-option value="sector1">Sector 1</ion-select-option>
           <ion-select-option value="sector2">Sector 2</ion-select-option>
           <ion-select-option value="sector3">Sector 3</ion-select-option>
@@ -46,7 +46,7 @@
       
       <ion-item>
         <ion-label style="font-size: 13px; color: gray;">Área</ion-label>
-        <ion-select okText="Guardar" cancelText="Cancelar">
+        <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box">
           <ion-select-option value="area1">Área 1</ion-select-option>
           <ion-select-option value="area2">Área 2</ion-select-option>
           <ion-select-option value="area3">Área 3</ion-select-option>
@@ -56,7 +56,7 @@
     
       <ion-item>
         <ion-label style="font-size: 13px; color: gray;">Categoría</ion-label>
-        <ion-select okText="Guardar" cancelText="Cancelar">
+        <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box">
           <ion-select-option value="categoria1">Categoría 1</ion-select-option>
           <ion-select-option value="categoria2">Categoría 2</ion-select-option>
           <ion-select-option value="categoria3">Categoría 3</ion-select-option>
@@ -66,7 +66,7 @@
     
       <ion-item>
         <ion-label style="font-size: 13px; color: gray;">Incidente</ion-label>
-        <ion-select okText="Guardar" cancelText="Cancelar">
+        <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box">
           <ion-select-option value="incidente1">Incidente 1</ion-select-option>
           <ion-select-option value="incidente2">Incidente 2</ion-select-option>
           <ion-select-option value="incidente3">Incidente 3</ion-select-option>
@@ -76,7 +76,7 @@
     
       <ion-item>
         <ion-label style="font-size: 13px; color: gray;">Prioridad</ion-label>
-        <ion-select okText="Guardar" cancelText="Cancelar">
+        <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box">
           <ion-select-option value="alta">Alta</ion-select-option>
           <ion-select-option value="media">Media</ion-select-option>
           <ion-select-option value="baja">Baja</ion-select-option>
@@ -87,7 +87,7 @@
       <ion-label color="primary">Descripción</ion-label>
       <hr>
       <ion-item lines="none">
-        <ion-textarea id="areaMensaje" name="areaMensaje" placeholder=" ⌨ Su Mensaje" 
+        <ion-textarea id="areaMensaje" name="areaMensaje" placeholder="⌨ Su Mensaje" 
         [(ngModel)]="mensaje" rows="6" cols="1000" class="textArea-text textArea"></ion-textarea>
       </ion-item>
       <hr>
@@ -103,7 +103,8 @@
      </div>
 
       <hr>
-      <ion-button expand="block" class="list-button" color="dark" type="reset">
+      <ion-button expand="block" class="list-button" color="dark"
+      (click)="cleanFields()">
         <ion-icon slot="start" name="color-wand"></ion-icon>
         Limpiar
       </ion-button>

@@ -14,7 +14,8 @@
 <ion-content>
   <ion-card>
     <ion-card-header color="primary">
-        <ion-button fill="outline" expand="block" color="light" class="header-button">
+        <ion-button fill="outline" expand="block" color="light" class="header-button"
+        (click)="handleTicketUpdate()">
           <ion-icon name="pencil" style="zoom:0.9"></ion-icon>&nbsp;
           Editar
         </ion-button>
@@ -25,11 +26,11 @@
 
       <div style="position: absolute;">
         <ion-label>No. de Ticket</ion-label>
-        <ion-title color="warning"># {{ codigo }}</ion-title>
+        <ion-title color="warning"># {{ code }}</ion-title>
       </div>
       <div style="float: right">
         <ion-label>Status actual</ion-label>
-        <ion-title color="primary">Reportado</ion-title>
+        <ion-title color="primary">{{item.status}}</ion-title>
       </div>
       <hr>
       <hr>
@@ -40,93 +41,98 @@
         <ion-icon slot="start" name="pricetag"></ion-icon>
         Cambiar de Status
       </ion-button>
+
       <hr>
       <hr>
       <hr>
 
         <!--Sede-->
         <ion-label class="label-text">Sede</ion-label>
-        <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="sede" class="input-text" value="CTT Pradera Zona 10"></ion-input>
+        <ion-item lines="none" class="form-item">
+          <ion-input disabled="true" type="text" name="sede" class="input-text" [value]="item.sede"></ion-input>
         </ion-item>
 
         <!--Sector-->
         <ion-label class="label-text">Sector</ion-label>
-        <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="sector" class="input-text" value="Torre Única"></ion-input>
+        <ion-item lines="none" class="form-item">
+          <ion-input disabled="true" type="text" name="sector" class="input-text" [value]="item.sector"></ion-input>
         </ion-item>
 
         <!--Área-->
         <ion-label class="label-text">Área</ion-label>
-        <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="area" class="input-text" value="Baños de caballeros"></ion-input>
+        <ion-item lines="none" class="form-item">
+          <ion-input disabled="true" type="text" name="area" class="input-text" [value]="item.area"></ion-input>
         </ion-item>
 
         <!--Nivel-->
         <ion-label class="label-text">Nivel</ion-label>
-        <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="nivel" class="input-text" value="1er. nivel"></ion-input>
+        <ion-item lines="none" class="form-item">
+          <ion-input disabled="true" type="text" name="nivel" class="input-text" [value]="item.nivel"></ion-input>
         </ion-item>
 
         <!--Categoría-->
         <ion-label class="label-text">Categoría</ion-label>
-        <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="categoria" class="input-text" value="Sistema de Gestión Integrado"></ion-input>
+        <ion-item lines="none" class="form-item">
+          <ion-input disabled="true" type="text" name="categoria" class="input-text" [value]="item.categoria"></ion-input>
         </ion-item>
 
         <!--Incidente-->
         <ion-label class="label-text">Incidente</ion-label>
-        <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="incidente" class="input-text" value="Espejos sucios"></ion-input>
+        <ion-item lines="none" class="form-item">
+          <ion-input disabled="true" type="text" name="incidente" class="input-text" [value]="item.incidente"></ion-input>
         </ion-item>
 
         <!--Prioridad-->
         <ion-label class="label-text">Prioridad</ion-label>
-        <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="prioridad" class="input-text" value="Baja"></ion-input>
+        <ion-item lines="none" class="form-item">
+          <ion-input disabled="true" type="text" name="prioridad" class="input-text" [value]="item.prioridad"></ion-input>
         </ion-item>
 
         <!--Respuesta Planificada-->
         <ion-label class="label-text">Respuesta Planificada</ion-label>
-        <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="respuesta" class="input-text" value="48:00"></ion-input>
+        <ion-item lines="none" class="form-item">
+          <ion-input disabled="true" type="text" name="respuesta" class="input-text" [value]="item.tiempo_respuesta"></ion-input>
         </ion-item>
 
         <!--Solución Planificada-->
         <ion-label class="label-text">Solución Planificada</ion-label>
-        <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="solucion" class="input-text" value="96:00"></ion-input>
+        <ion-item lines="none" class="form-item">
+          <ion-input disabled="true" type="text" name="solucion" class="input-text" [value]="item.tiempo_solucion"></ion-input>
         </ion-item>
 
         <!--Tiempo en Espera o Hold On-->
         <ion-label class="label-text">Tiempo en Espera o Hold On</ion-label>
-        <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="tiempo-espera" class="input-text" value="---"></ion-input>
+        <ion-item lines="none" class="form-item">
+          <ion-input disabled="true" type="text" name="tiempo-espera" class="input-text" [value]="item.tiempo_espera"></ion-input>
         </ion-item>
 
         <!--Tiempo Respuesta Efectiva-->
         <ion-label class="label-text">Tiempo Respuesta Efectiva</ion-label>
-        <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="tiempo-respuesta" class="input-text" value="- Pendiente de respuesta -"></ion-input>
+        <ion-item lines="none" class="form-item">
+          <ion-input disabled="true" type="text" name="tiempo-respuesta" class="input-text" [value]="item.primera_respuesta"></ion-input>
         </ion-item>
 
         <!--Tiempo de Solución Efectivo-->
         <ion-label class="label-text">Tiempo de Solución Efectivo</ion-label>
-        <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="prioridad" class="input-text" value="- Pendiente de Solución -"></ion-input>
+        <ion-item lines="none" class="form-item">
+          <ion-input disabled="true" type="text" name="prioridad" class="input-text" [value]="item.status_solucion"></ion-input>
         </ion-item>
 
         <!--Descripción-->
         <ion-label class="label-text">Descripción</ion-label>
-        <ion-item lines="none">
-          <ion-textarea id="areaDescripcion" name="descripcion" value="Descripción del incidente" 
+        <ion-item lines="none" class="form-item">
+          <ion-textarea id="areaDescripcion" name="descripcion" [value]="item.descripcion" 
           disabled="true" rows="5" cols="1000" class="textArea-text textArea">
         </ion-textarea>
         </ion-item>
+
         <hr>
 
+        <!--Imágenes-->
         <ion-title color="dark" style="text-align: center;">Imágenes por Status</ion-title>
+
         <hr>
+
         <div id="photo-album" *ngIf="statusPhotos">
           <!--Fotografías-->
         </div>
@@ -134,7 +140,44 @@
 
         <hr>
         <hr>
+
+        <!--Usuarios asignados-->
         <ion-title color="dark" style="text-align: center;">Usuario(s) Asignados</ion-title>
+        <ion-list>
+          <ion-item *ngFor="let user of assignedUsers" class="list-item">
+            <ion-label class="list-text">{{user.nombre}}</ion-label>
+            <ion-label class="list-text" style="text-align: center;">
+              {{user.fecha_asignacion}}
+            </ion-label>
+            <ion-buttons slot="end">
+              <ion-button color="warning" (click)="getOut(user.codigo)">
+                <ion-icon name="log-out" style="zoom: 1.3;"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-item>
+        </ion-list>
+
+        <hr>
+
+        <!--Usuario a asignar-->
+        <ion-label class="label-text">Usuarios a asignar</ion-label>
+        <ion-item class="form-item">
+          <ion-label style="font-size: 13px; color: gray;">Usuario</ion-label>
+          <ion-select okText="Guardar" cancelText="Cancelar" [(ngModel)]="newUserCode" class="combo-box">
+            <ion-select-option *ngFor="let user of aviableUsers" [value]="user.codigo">{{user.nombre}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <!--Botón de agregar-->
+      <ion-button expand="block" class="option-button" color="primary" (click)="addUser()">
+        <ion-icon slot="start" name="add"></ion-icon>
+        Agregar
+      </ion-button>
+      <!--Botón de trasladar-->
+      <ion-button expand="block" class="option-button" color="secondary" (click)="transferUser()">
+        <ion-icon slot="start" name="repeat"></ion-icon>
+        Trasladar
+      </ion-button>
 
     </ion-card-content>
   </ion-card>

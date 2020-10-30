@@ -14,6 +14,7 @@ import { LoadingService } from '../../services/loading/loading.service';
 export class PasswordPage implements OnInit {
 
   code;
+  domain;
   name;
   user;
 
@@ -42,8 +43,9 @@ export class PasswordPage implements OnInit {
     await this.storage.get('token').then(
       async user => {
         this.code = user.codigo;
+        this.domain = user.dominio;
 
-        await this.dataService.getPasswordData(this.code).subscribe((res:any)=>{
+        await this.dataService.getPasswordData(this.domain, this.code).subscribe((res:any)=>{
           this.name=res.data.nombre;
           this.user=res.data.usu;
           this.password=undefined;
@@ -65,14 +67,14 @@ export class PasswordPage implements OnInit {
       if(this.password!=this.confirmPassword){
         this.toastService.presentToast('Los contraseña y la confirmación de la misma no concuerdan. Intente nuevamente.', 'danger');
       }else{
-        this.dataService.setPasswordData(this.code, this.user, this.password).subscribe(async (res:any)=>{
+        this.dataService.setPasswordData(this.domain, this.code, this.user, this.password).subscribe(async (res:any)=>{
           if(!res.status){
             this.toastService.presentToast(res.message, 'danger');
           }else if(res.status){            
             //Limpiar inputs
             await this.ngOnInit();
-
             this.alertService.presentAlert(res.message);
+            
           }else{
             this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
           }

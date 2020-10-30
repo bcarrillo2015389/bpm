@@ -43,7 +43,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/tramite-ticket/tramite-ticket.module').then( m => m.TramiteTicketPageModule)
   },
   {
-    path: 'actualizar-ticket',
+    path: 'actualizar-ticket/:codigo',
     loadChildren: () => import('./pages/actualizar-ticket/actualizar-ticket.module').then( m => m.ActualizarTicketPageModule)
   }
 ];

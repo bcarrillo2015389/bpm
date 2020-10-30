@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Option } from '../../interfaces/interfaces';
 import { map } from 'rxjs/operators';
+import { Storage } from '@ionic/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +10,11 @@ import { map } from 'rxjs/operators';
 export class DataService {
   loginUrl = 'https://login.bpm.gt/LOGIN/API/API_login.php?';
   ayudaUrl = 'https://demo.bpm.gt/ROOT/API/API_ayuda.php?';
-  ajustesUrl = 'https://demo.bpm.gt/ROOT/API/API_ajustes.php?';
+  ajustesUrl = '/ROOT/API/API_ajustes.php?';
+  problemSweeperUrl = '/ROOT/API/API_problem_sweeper.php?';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private storage:Storage) { }
 
   private extractData(res: Response){
     let body = res;
@@ -44,32 +47,86 @@ export class DataService {
     );
   }
 
-  getProfilePhoto(code){
-    return this.http.get(this.ayudaUrl+'request=get_foto&usuario='+code).pipe(
+  getProfilePhoto(userDomain, code){
+    return this.http.get('https://'+userDomain+this.ajustesUrl+'request=get_foto&usuario='+code).pipe(
       map(this.extractData)
     );
   }
 
-  getProfileData(code){
-    return this.http.get(this.ajustesUrl+'request=get_perfil&usuario='+code).pipe(
+  getProfileData(userDomain,code){
+    return this.http.get('https://'+userDomain+this.ajustesUrl+'request=get_perfil&usuario='+code).pipe(
       map(this.extractData)
     );
   }
 
-  setProfileData(code, name, mail, phone){
-    return this.http.get(this.ajustesUrl+'request=set_perfil&usuario='+code+'&nombre='+name+'&mail='+mail+'&telefono='+phone).pipe(
+  setProfileData(userDomain, code, name, mail, phone){
+    return this.http.get('https://'+userDomain+this.ajustesUrl+'request=set_perfil&usuario='+code+'&nombre='+name+'&mail='+mail+'&telefono='+phone).pipe(
       map(this.extractData)
     );
   }
 
-  getPasswordData(code){
-    return this.http.get(this.ajustesUrl+'request=get_pasword&usuario='+code).pipe(
+  getPasswordData(userDomain, code){
+    return this.http.get('https://'+userDomain+this.ajustesUrl+'request=get_pasword&usuario='+code).pipe(
       map(this.extractData)
     );
   }
 
-  setPasswordData(code, user, password){
-    return this.http.get(this.ajustesUrl+'request=set_pasword&usuario='+code+'&usu='+user+'&pass='+password).pipe(
+  setPasswordData(userDomain, code, user, password){
+    return this.http.get('https://'+userDomain+this.ajustesUrl+'request=set_pasword&usuario='+code+'&usu='+user+'&pass='+password).pipe(
+      map(this.extractData)
+    );
+  }
+
+  getAssignedTickets(userDomain, code){
+    return this.http.get('https://'+userDomain+this.problemSweeperUrl+'request=tickets_asignados&usuario='+code).pipe(
+      map(this.extractData)
+    );
+  }
+
+  closeTicket(userDomain, code){
+    return this.http.get('https://'+userDomain+this.problemSweeperUrl+'request=cerrar_ticket&ticket='+code).pipe(
+      map(this.extractData)
+    );
+  }
+
+  getReportedTickets(userDomain, code){
+    return this.http.get('https://'+userDomain+this.problemSweeperUrl+'request=tickets_reportados&usuario='+code).pipe(
+      map(this.extractData)
+    );
+  }
+
+  changeStatus(userDomain, code, statusCode, description){
+    return this.http.get('https://'+userDomain+this.problemSweeperUrl+'request=cambiar_status&ticket='+code+'&status='+statusCode+'&observacion='+description).pipe(
+      map(this.extractData)
+    );
+  }
+
+  getAllStatus(userDomain){
+    return this.http.get('https://'+userDomain+this.problemSweeperUrl+'request=get_status').pipe(
+      map(this.extractData)
+    );
+  }
+
+  getOutUser(userDomain,ticketCode,userCode){
+    return this.http.get('https://'+userDomain+this.problemSweeperUrl+'request=salir_usuario&ticket='+ticketCode+'&usuario='+userCode).pipe(
+      map(this.extractData)
+    );
+  }
+
+  getUsers(userDomain, sedes){
+    return this.http.get('https://'+userDomain+this.problemSweeperUrl+'request=get_usuarios&sedes_in='+sedes).pipe(
+      map(this.extractData)
+    );
+  }
+
+  addUser(userDomain,ticketCode,userCode){
+    return this.http.get('https://'+userDomain+this.problemSweeperUrl+'request=agregar_usuario&ticket='+ticketCode+'&usuario='+userCode).pipe(
+      map(this.extractData)
+    );
+  }
+
+  transferUser(userDomain,ticketCode,userCode){
+    return this.http.get('https://'+userDomain+this.problemSweeperUrl+'request=trasladar_usuario&ticket='+ticketCode+'&usuario='+userCode).pipe(
       map(this.extractData)
     );
   }

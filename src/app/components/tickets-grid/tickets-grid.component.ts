@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { LoadingService } from '../../services/loading/loading.service';
+import { Storage } from '@ionic/storage';
+import { DataService } from '../../services/data/data.service';
+import { ToastService } from '../../services/toast/toast.service';
+import { AlertService } from '../../services/alert/alert.service';
 
 @Component({
   selector: 'app-tickets-grid',
@@ -10,53 +14,49 @@ import { LoadingService } from '../../services/loading/loading.service';
 })
 export class TicketsGridComponent implements OnInit {
 
+  code;
+  domain;
   items;
+
+  status:boolean = true;
 
 
   constructor(private alertCtr:AlertController,
               private loadingService:LoadingService,
-              private router:Router) { }
+              private router:Router,
+              private storage:Storage,
+              private dataService:DataService,
+              private toastService:ToastService,
+              private alertService:AlertService) { }
 
   async ngOnInit() {
     await this.loadingService.presentLoading('Cargando...');
-    this.items = [{
-      codigo:1010,
-      incidente:'Espejos Sucios',
-      status:'Reportado',
-      prioridad:'Baja',
-      categoria:'SGI',
-      descripcion: 'Mancha de grasa en el espejo delantero.',
-      fecha:'30/09/2020'
-    },{
-      codigo:1011,
-      incidente:'Piso Sucio',
-      status:'Reportado',
-      prioridad:'Baja',
-      categoria:'SGI',
-      descripcion: 'Derrame de tinta.',
-      fecha:'30/09/2020'
-    },{
-      codigo:1012,
-      incidente:'Vidrio roto',
-      status:'Solucionado',
-      prioridad:'Alta',
-      categoria:'SGI',
-      descripcion: 'Agujero de 2cm de radio.',
-      fecha:'29/09/2020'
-    }];
+    
+    await this.storage.get('token').then(
+      async user => {
+        this.code = user.codigo;
+        this.domain = user.dominio;
 
-    this.loadingService.loadingDismiss();
+        await this.dataService.getAssignedTickets(this.domain, this.code).subscribe((res:any)=>{
+
+          this.status = res.status;
+
+          this.items = res.data;
+          this.loadingService.loadingDismiss();
+        });
+      }
+    );
   }
 
-  handleTramiteTicket(codigo){
-    this.router.navigateByUrl('tramite-ticket/'+codigo);
+  handleTramiteTicket(item){
+    this.router.navigateByUrl('tramite-ticket/'+item.codigo);
   }
 
-  handleCloseTicket(){
-    this.presentConfirmAlert('¿Desea cerrar este ticket del listado?, no prodrá ser usada después...');
+  handleCloseTicket(code){
+    this.presentConfirmAlert('¿Desea cerrar este ticket del listado?, no prodrá ser usada después...',code);
   }
 
-  async presentConfirmAlert(txtMessage) {
+  async presentConfirmAlert(txtMessage,code) {
     const alert = await this.alertCtr.create({
       cssClass: 'style-alert',
       header: 'Cerrar ticket',
@@ -65,7 +65,7 @@ export class TicketsGridComponent implements OnInit {
         {
           text: '✔ Aceptar',
           handler: (blah) => {
-            console.log('Eliminado');
+            this.closeAssignedTicket(code);
           }
         },
         {
@@ -77,6 +77,21 @@ export class TicketsGridComponent implements OnInit {
     });
 
     await alert.present();
+  }
+
+  closeAssignedTicket(code){
+    this.dataService.closeTicket(this.domain, code).subscribe(async (res:any)=>{
+      if(!res.status){
+        this.toastService.presentToast(res.message, 'danger');
+      }else if(res.status){
+        
+        await this.alertService.presentAlert(res.message);
+        this.ngOnInit();
+
+      }else{
+        this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
+      }
+    });
   }
 
 }

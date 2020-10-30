@@ -1,4 +1,4 @@
-ion-item {
+ion-item{
     --border-color: transparent !important;
     --background: #F4F3EF;
     border-radius: 14px;
@@ -29,7 +29,7 @@ ion-card-header{
 
 .textArea-text{
     border-radius: 10px;
-    font-size: 12px;
+    font-size: 12.5px;
     text-align: justify;
 }
 
@@ -38,11 +38,7 @@ ion-textarea{
 }
 
 .combo-box{
-    margin-bottom: 14px;
-    margin-top: 14px;
     font-size: 13px;
-    background-color: #F4F3EF;
-    border-radius: 10px;
 }
 
 .list-button{

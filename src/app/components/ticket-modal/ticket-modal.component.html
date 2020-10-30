@@ -25,7 +25,7 @@
       </div>
       <div style="float: right">
         <ion-label>Status actual</ion-label>
-        <ion-title color="primary">Reportado</ion-title>
+        <ion-title color="primary">{{item.status}}</ion-title>
       </div>
 
       <hr>
@@ -37,81 +37,81 @@
       <hr>
 
         <!--Sede-->
-        <ion-label class="label-text first-label">Sede</ion-label>
+        <ion-label class="label-text">Sede</ion-label>
         <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="sede" class="input-text" value="CTT Pradera Zona 10"></ion-input>
+          <ion-input disabled="true" type="text" name="sede" class="input-text" [value]="item.sede"></ion-input>
         </ion-item>
 
         <!--Sector-->
         <ion-label class="label-text">Sector</ion-label>
         <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="sector" class="input-text" value="Torre Única"></ion-input>
+          <ion-input disabled="true" type="text" name="sector" class="input-text" [value]="item.sector"></ion-input>
         </ion-item>
 
         <!--Área-->
         <ion-label class="label-text">Área</ion-label>
         <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="area" class="input-text" value="Baños de caballeros"></ion-input>
+          <ion-input disabled="true" type="text" name="area" class="input-text" [value]="item.area"></ion-input>
         </ion-item>
 
         <!--Nivel-->
         <ion-label class="label-text">Nivel</ion-label>
         <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="nivel" class="input-text" value="1er. nivel"></ion-input>
+          <ion-input disabled="true" type="text" name="nivel" class="input-text" [value]="item.nivel"></ion-input>
         </ion-item>
 
         <!--Categoría-->
         <ion-label class="label-text">Categoría</ion-label>
         <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="categoria" class="input-text" value="Sistema de Gestión Integrado"></ion-input>
+          <ion-input disabled="true" type="text" name="categoria" class="input-text" [value]="item.categoria"></ion-input>
         </ion-item>
 
         <!--Incidente-->
         <ion-label class="label-text">Incidente</ion-label>
         <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="incidente" class="input-text" value="Espejos sucios"></ion-input>
+          <ion-input disabled="true" type="text" name="incidente" class="input-text" [value]="item.incidente"></ion-input>
         </ion-item>
 
         <!--Prioridad-->
         <ion-label class="label-text">Prioridad</ion-label>
         <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="prioridad" class="input-text" value="Baja"></ion-input>
+          <ion-input disabled="true" type="text" name="prioridad" class="input-text" [value]="item.prioridad"></ion-input>
         </ion-item>
 
         <!--Respuesta Planificada-->
         <ion-label class="label-text">Respuesta Planificada</ion-label>
         <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="respuesta" class="input-text" value="48:00"></ion-input>
+          <ion-input disabled="true" type="text" name="respuesta" class="input-text" [value]="item.tiempo_respuesta"></ion-input>
         </ion-item>
 
         <!--Solución Planificada-->
         <ion-label class="label-text">Solución Planificada</ion-label>
         <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="solucion" class="input-text" value="96:00"></ion-input>
+          <ion-input disabled="true" type="text" name="solucion" class="input-text" [value]="item.tiempo_solucion"></ion-input>
         </ion-item>
 
         <!--Tiempo en Espera o Hold On-->
         <ion-label class="label-text">Tiempo en Espera o Hold On</ion-label>
         <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="tiempo-espera" class="input-text" value="---"></ion-input>
+          <ion-input disabled="true" type="text" name="tiempo-espera" class="input-text" [value]="item.tiempo_espera"></ion-input>
         </ion-item>
 
         <!--Tiempo Respuesta Efectiva-->
         <ion-label class="label-text">Tiempo Respuesta Efectiva</ion-label>
         <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="tiempo-respuesta" class="input-text" value="- Pendiente de respuesta -"></ion-input>
+          <ion-input disabled="true" type="text" name="tiempo-respuesta" class="input-text" [value]="item.primera_respuesta"></ion-input>
         </ion-item>
 
         <!--Tiempo de Solución Efectivo-->
         <ion-label class="label-text">Tiempo de Solución Efectivo</ion-label>
         <ion-item lines="none">
-          <ion-input disabled="true" type="text" name="prioridad" class="input-text" value="- Pendiente de Solución -"></ion-input>
+          <ion-input disabled="true" type="text" name="prioridad" class="input-text" [value]="item.status_solucion"></ion-input>
         </ion-item>
 
         <!--Descripción-->
         <ion-label class="label-text">Descripción</ion-label>
         <ion-item lines="none">
-          <ion-textarea id="areaDescripcion" name="descripcion" value="Descripción del incidente" 
+          <ion-textarea id="areaDescripcion" name="descripcion" [value]="item.descripcion" 
           disabled="true" rows="5" cols="1000" class="textArea-text textArea">
         </ion-textarea>
         </ion-item>

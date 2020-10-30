@@ -19,6 +19,7 @@ export class PerfilPage implements OnInit {
 
   //Datos
   code;
+  domain;
   principalName;
   name;
   email;
@@ -37,12 +38,13 @@ export class PerfilPage implements OnInit {
     await this.storage.get('token').then(
       async user => {
         this.code=user.codigo;
+        this.domain = user.dominio;
 
-        await this.dataService.getProfilePhoto(this.code).subscribe((res:any)=>{
+        await this.dataService.getProfilePhoto(this.domain, this.code).subscribe((res:any)=>{
           this.photo = res.data.url_foto;
         });
 
-        await this.dataService.getProfileData(user.codigo).subscribe((res:any)=>{
+        await this.dataService.getProfileData(this.domain, user.codigo).subscribe((res:any)=>{
           this.name=res.data.nombre;
           this.principalName=res.data.nombre;
           this.email=res.data.mail;
@@ -55,7 +57,7 @@ export class PerfilPage implements OnInit {
 
   updateProfile(){
     if(this.name && this.email && this.phone){
-      this.dataService.setProfileData(this.code, this.name, this.email, this.phone).subscribe(async (res:any)=>{
+      this.dataService.setProfileData(this.domain, this.code, this.name, this.email, this.phone).subscribe(async (res:any)=>{
         if(!res.status){
           this.toastService.presentToast(res.message, 'danger');
         }else if(res.status){

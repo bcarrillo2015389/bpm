@@ -8,8 +8,8 @@
         <ion-card-header>
 
           <div style="float: right;">
-            <ion-icon color="danger" (click)="handleCloseTicket()" name="close-circle" class="delete-icon"></ion-icon>&nbsp;
-            <ion-icon color="tertiary" (click)="handleTramiteTicket(item.codigo)" name="chevron-forward-circle" class="tramite-icon"></ion-icon>
+            <ion-icon color="danger" (click)="handleCloseTicket(item.codigo)" name="close-circle" class="delete-icon"></ion-icon>&nbsp;
+            <ion-icon color="tertiary" (click)="handleTramiteTicket(item)" name="chevron-forward-circle" class="tramite-icon"></ion-icon>
           </div>
       
           <ion-card-title color="primary" style="position: absolute;">{{i+1}} | Ticket</ion-card-title>
@@ -19,46 +19,46 @@
         </ion-card-header>
           <hr>
           
-        <ion-card-content>
+        <ion-card-content class="item-content">
           <ion-list>
             
             <ion-item lines="none">
-              <ion-label style="font-size: 13px; color: gray;">
+              <ion-label class="label-text">
                 Incidente:
               </ion-label>
-              <ion-text color="dark" style="font-size: 13.5px;">{{item.incidente}}</ion-text>
+              <ion-text color="dark" class="item-text">{{item.incidente}}</ion-text>
               <ion-icon slot="end" name="hammer" color="primary"></ion-icon>
             </ion-item>
 
             <ion-item lines="none">
-              <ion-label style="font-size: 13px; color: gray;">
+              <ion-label class="label-text">
                 Status:
               </ion-label>
-              <ion-text color="dark" style="font-size: 13.5px;">{{item.status}}</ion-text>
+              <ion-text color="dark" class="item-text">{{item.status}}</ion-text>
               <ion-icon slot="end" name="alert" color="primary"></ion-icon>
             </ion-item>
 
             <ion-item lines="none">
-              <ion-label style="font-size: 13px; color: gray;">
+              <ion-label class="label-text">
                 Prioridad:
               </ion-label>
-              <ion-text color="dark" style="font-size: 13.5px;">{{item.prioridad}}</ion-text>
+              <ion-text color="dark" class="item-text">{{item.prioridad}}</ion-text>
               <ion-icon slot="end" name="document-attach" color="primary"></ion-icon>
             </ion-item>
 
             <ion-item lines="none">
-              <ion-label style="font-size: 13px; color: gray;">
+              <ion-label class="label-text">
                 Categoría:
               </ion-label>
-              <ion-text color="dark" style="font-size: 13.5px;">{{item.categoria}}</ion-text>
+              <ion-text color="dark" class="item-text">{{item.categoria}}</ion-text>
               <ion-icon slot="end" name="bookmarks" color="primary"></ion-icon>
             </ion-item>
 
             <ion-item lines="none">
-              <ion-label style="font-size: 13px; color: gray;">
+              <ion-label class="label-text">
                 Fecha apertura:
               </ion-label>
-              <ion-text color="dark" style="font-size: 13.5px;">{{item.fecha}}</ion-text>
+              <ion-text color="dark" class="item-text">{{item.fecha_registro}}</ion-text>
               <ion-icon slot="end" name="calendar" color="primary"></ion-icon>
             </ion-item>
 
@@ -68,3 +68,12 @@
     </ion-col>
   </ion-row>
 </ion-grid>
+
+<div class="warning-div">
+<ion-card *ngIf="!status">
+  <ion-card-content>
+    <ion-icon slot="start" name="warning" style="zoom: 1.3;"></ion-icon>&nbsp;
+      No cuenta con tickets asignados actualmente...
+  </ion-card-content>
+</ion-card>
+</div>

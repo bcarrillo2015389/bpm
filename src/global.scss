@@ -74,15 +74,20 @@
         width: 100% !important;
         border-top-left-radius: 25px;
         border-top-right-radius: 25px;
-        margin-top: 10vh;
+        margin-top: 30vh;
     }
     &.bottom {
         align-items: flex-end !important;
     }
 
-    --height: 90vh;
+    --height: 70vh;
   }
 
   ion-select{
     color:var(--ion-color-dark);
+  }
+
+  .alert-tappable.alert-radio {
+    height: 40px;
+    contain: content;
   }
