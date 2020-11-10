@@ -18,6 +18,7 @@ export class TramiteTicketPage implements OnInit {
   item:any={};
   code;
   statusPhotos:boolean=false;
+
   userDomain;
   userName;
   userCode;
@@ -26,6 +27,8 @@ export class TramiteTicketPage implements OnInit {
   newUserCode;
 
   aviableUsers;
+
+  binnacle;
 
   constructor(private route:ActivatedRoute,
               private modalCtrl:ModalController,
@@ -50,6 +53,7 @@ export class TramiteTicketPage implements OnInit {
         await this.dataService.getAssignedTickets(this.userDomain, this.userCode).subscribe((res:any)=>{
           this.item = res.data.find(item=>item.codigo==this.code);
           this.assignedUsers = this.item.usuarios_asignados;
+          this.binnacle=this.item.bitacora;
         });
 
         await this.dataService.getUsers(this.userDomain,sedes).subscribe((res:any)=>{
@@ -103,7 +107,7 @@ export class TramiteTicketPage implements OnInit {
         if(userCode==this.userCode){
           this.router.navigateByUrl('home');
         }else{
-          this.ngOnInit();
+          await this.ngOnInit();
         }
         
         this.alertService.presentAlert(res.message);
@@ -113,20 +117,49 @@ export class TramiteTicketPage implements OnInit {
     });
   }
 
-  /*addUser(){
-    if(){
-
+  addUser(){
+    if(this.newUserCode){
+      this.dataService.addUser(this.userDomain, this.code, this.newUserCode).subscribe(async (res:any)=>{
+        if(!res.status){
+          this.toastService.presentToast(res.message, 'danger');
+        }else if(res.status){            
+          //Recargar
+          this.newUserCode=undefined;
+          await this.ngOnInit();
+          this.alertService.presentAlert(res.message);
+          
+        }else{
+          this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
+        }
+      });
     }else{
-
+      this.toastService.presentToast('Debe llenar los Campos Obligatorios...', 'danger');
     }
   }
 
   transferUser(){
-    if(){
+    if(this.newUserCode){
+      this.dataService.transferUser(this.userDomain, this.code, this.newUserCode).subscribe(async (res:any)=>{
+        if(!res.status){
+          this.toastService.presentToast(res.message, 'danger');
+        }else if(res.status){            
+          
+          if(this.newUserCode!=this.userCode){
+            this.router.navigateByUrl('home');
+          }else{
+            this.newUserCode=undefined;
+            await this.ngOnInit();
+          }
 
+          this.alertService.presentAlert(res.message);
+          
+        }else{
+          this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
+        }
+      });
     }else{
-      
+      this.toastService.presentToast('Debe llenar los Campos Obligatorios...', 'danger');
     }
-  }*/
+  }
 
 }

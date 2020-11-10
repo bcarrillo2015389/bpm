@@ -75,3 +75,23 @@ ion-textarea{
     margin-right: 7.5%;
     margin-top: 5px;
 }
+
+table, th, td {
+    padding: 5px;
+}
+
+table {
+    border-spacing: 15px;
+    width: 100%;
+}
+
+td{
+    font-size: 11px;
+}
+
+th{
+    color: black;
+    font-size: 11px;
+    background-color: #D0DFF5;
+    padding: 10px;
+}

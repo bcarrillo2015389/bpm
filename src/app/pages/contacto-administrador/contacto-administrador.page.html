@@ -44,9 +44,10 @@
       <!--Su Mensaje-->
       <ion-label class="label-text">Descripción</ion-label>
       <ion-item lines="none" class="input-item">
-        <ion-textarea id="areaMensaje" name="areaMensaje" placeholder="⌨ Su Mensaje" 
+        <ion-textarea id="areaMensaje" name="areaMensaje" placeholder="Su mensaje..." 
           [(ngModel)]="message" rows="4" cols="1000" class="textArea-text textArea">
         </ion-textarea>
+        <ion-icon name="chatbox-ellipses" slot="start" style="zoom:0.8;" color="primary"></ion-icon>
       </ion-item>
 
       <hr>

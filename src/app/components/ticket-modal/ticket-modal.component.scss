@@ -1,4 +1,4 @@
-ion-item {
+.form-item {
     --border-color: transparent !important;
     --background: #F4F3EF;
     border-radius: 14px;
@@ -13,7 +13,11 @@ ion-card {
 }
 
 ion-card-header{
-    height: 30px;
+    height: 50px;
+}
+
+ion-card-title{
+    text-align: center;
 }
 
 .icon-toolbar{
@@ -40,4 +44,33 @@ ion-card-header{
 
 ion-textarea{
     background-color: #F4F3EF;
+}
+
+.list-text{
+    font-size: 12px;
+    height: auto;
+}
+
+.list-item{
+    height: auto;
+}
+
+table, th, td {
+    padding: 5px;
+}
+
+table {
+    border-spacing: 15px;
+    width: 100%;
+}
+
+td{
+    font-size: 11px;
+}
+
+th{
+    color: black;
+    font-size: 11px;
+    background-color: #D0DFF5;
+    padding: 10px;
 }

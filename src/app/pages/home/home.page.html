@@ -43,6 +43,7 @@
     <h1 class="titulo-principal"><b>Tickets asignados</b></h1>
   </div>
 
-  <app-tickets-grid></app-tickets-grid>
+  <app-tickets-grid [code]="code" [domain]="domain" 
+    [items]="items" [status]="status" (closeEvent)="closeAssignedTicket($event)"></app-tickets-grid>
 
 </ion-content>

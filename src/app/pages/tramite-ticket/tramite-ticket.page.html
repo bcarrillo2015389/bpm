@@ -16,7 +16,6 @@
     <ion-card-header color="primary">
         <ion-button fill="outline" expand="block" color="light" class="header-button"
         (click)="handleTicketUpdate()">
-          <ion-icon name="pencil" style="zoom:0.9"></ion-icon>&nbsp;
           Editar
         </ion-button>
     </ion-card-header>
@@ -24,14 +23,15 @@
 
     <ion-card-content>
 
-      <div style="position: absolute;">
-        <ion-label>No. de Ticket</ion-label>
-        <ion-title color="warning"># {{ code }}</ion-title>
+      <div style="position: absolute; margin-left: 20px;">
+        <ion-label class="label-text">No. de Ticket</ion-label>
+        <ion-text color="warning"><h1 style="font-size:20px;"># {{ code }}</h1></ion-text>
       </div>
-      <div style="float: right">
-        <ion-label>Status actual</ion-label>
-        <ion-title color="primary">{{item.status}}</ion-title>
+      <div style="float: right; margin-right: 20px;">
+        <ion-label class="label-text">Status actual</ion-label>
+        <ion-text color="primary"><h1 style="font-size:20px;">{{item.status}}</h1></ion-text>
       </div>
+
       <hr>
       <hr>
       <hr>
@@ -158,11 +158,12 @@
         </ion-list>
 
         <hr>
+        <hr>
 
         <!--Usuario a asignar-->
         <ion-label class="label-text">Usuarios a asignar</ion-label>
         <ion-item class="form-item">
-          <ion-label style="font-size: 13px; color: gray;">Usuario</ion-label>
+          <ion-label style="font-size: 12px; color: gray;">Usuario</ion-label>
           <ion-select okText="Guardar" cancelText="Cancelar" [(ngModel)]="newUserCode" class="combo-box">
             <ion-select-option *ngFor="let user of aviableUsers" [value]="user.codigo">{{user.nombre}}</ion-select-option>
           </ion-select>
@@ -178,6 +179,29 @@
         <ion-icon slot="start" name="repeat"></ion-icon>
         Trasladar
       </ion-button>
+
+      <hr>
+      <hr>
+      <hr>
+
+      <!--Bitácora-->
+      <ion-title color="dark" style="text-align: center;">Bitácora</ion-title>
+
+      <hr>
+      
+      <table>
+        <tr>
+          <th>Acción</th>
+          <th>Fecha/Hora</th>
+          <th>Observaciones o comentarios</th>
+        </tr>
+
+        <tr *ngFor="let action of binnacle">
+          <td>{{action.actividad}}</td>
+          <td>{{action.fecha_registro}}</td>
+          <td>{{action.observaciones}}</td>
+        </tr>
+      </table>
 
     </ion-card-content>
   </ion-card>

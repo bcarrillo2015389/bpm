@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActionSheetController, AlertController } from '@ionic/angular';
 import { PhotoService } from '../../services/photo/photo.service';
 import { LoadingService } from '../../services/loading/loading.service';
+import { Storage } from '@ionic/storage';
+import { DataService } from '../../services/data/data.service';
+import { ToastService } from '../../services/toast/toast.service';
+import { AlertService } from '../../services/alert/alert.service';
 
 
 @Component({
@@ -10,15 +14,49 @@ import { LoadingService } from '../../services/loading/loading.service';
   styleUrls: ['./nuevo-ticket.page.scss'],
 })
 export class NuevoTicketPage implements OnInit {
-  mensaje;
+  
+  domain;
+  description;
   source;
+
+  area:any={};
+  areaOptions:any=[];
+
+  incident:any={};
+  incidentOptions:any=[];
+
+  priorityOptions:any=[];
   
   constructor(private photoService:PhotoService,
               private actionSheetCtrl:ActionSheetController,
               private alertCtrl:AlertController,
-              private loadingService:LoadingService) { }
+              private loadingService:LoadingService,
+              private storage:Storage,
+              private dataService:DataService,
+              private toastService:ToastService,
+              private alertService:AlertService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.loadingService.presentLoading('Cargando...');
+
+    await this.storage.get('token').then(
+      async user => {
+        this.domain = user.dominio;
+
+        await this.dataService.getAreas(this.domain).subscribe((res:any)=>{
+          this.areaOptions = res.data;
+        });
+
+        await this.dataService.getIncidents(this.domain).subscribe((res:any)=>{
+          this.incidentOptions = res.data;
+        });
+
+        await this.dataService.getPriorities(this.domain).subscribe((res:any)=>{
+          this.priorityOptions = res.data;
+          this.loadingService.loadingDismiss();
+        });
+      }
+    );
   }
 
   async takePhoto(){
@@ -124,6 +162,29 @@ export class NuevoTicketPage implements OnInit {
 
     //Limpiar el text-area
     (<HTMLInputElement>document.getElementById('areaMensaje')).value = '';
+  }
+
+  saveTicket(){
+   if(this.area && this.incident){
+    this.dataService.saveTicket(this.domain, this.area.sede, this.incident.categoria, this.area.area, 
+      this.area.sector, this.incident.incidente, this.incident.prioridad, this.description).subscribe(async (res:any)=>{
+        if(!res.status){
+
+          this.toastService.presentToast(res.message, 'danger');
+
+        }else if(res.status){
+
+          await this.resetValues();
+          this.loadingService.loadingDismiss();
+          this.alertService.presentAlert(res.message);
+          
+        }else{
+          this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
+        }
+    });
+   }else{
+    this.toastService.presentToast('Los campos necesarios no están completos.', 'danger');
+   }
   }
 
 }

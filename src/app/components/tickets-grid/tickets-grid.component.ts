@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { LoadingService } from '../../services/loading/loading.service';
-import { Storage } from '@ionic/storage';
 import { DataService } from '../../services/data/data.service';
 import { ToastService } from '../../services/toast/toast.service';
 import { AlertService } from '../../services/alert/alert.service';
+import { LoadingService } from '../../services/loading/loading.service';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-tickets-grid',
@@ -14,38 +14,22 @@ import { AlertService } from '../../services/alert/alert.service';
 })
 export class TicketsGridComponent implements OnInit {
 
-  code;
-  domain;
-  items;
-
-  status:boolean = true;
+  @Input()code;
+  @Input()domain;
+  @Input()items;
+  @Input()status:boolean=true;
+  @Output() closeEvent = new EventEmitter<number>();
 
 
   constructor(private alertCtr:AlertController,
-              private loadingService:LoadingService,
               private router:Router,
-              private storage:Storage,
               private dataService:DataService,
               private toastService:ToastService,
-              private alertService:AlertService) { }
+              private alertService:AlertService,
+              private loadingService:LoadingService,
+              private storage:Storage) { }
 
-  async ngOnInit() {
-    await this.loadingService.presentLoading('Cargando...');
-    
-    await this.storage.get('token').then(
-      async user => {
-        this.code = user.codigo;
-        this.domain = user.dominio;
-
-        await this.dataService.getAssignedTickets(this.domain, this.code).subscribe((res:any)=>{
-
-          this.status = res.status;
-
-          this.items = res.data;
-          this.loadingService.loadingDismiss();
-        });
-      }
-    );
+  ngOnInit() {
   }
 
   handleTramiteTicket(item){
@@ -80,18 +64,41 @@ export class TicketsGridComponent implements OnInit {
   }
 
   closeAssignedTicket(code){
+    this.closeEvent.emit(code);
+  }
+
+  /*closeAssignedTicket(code){
     this.dataService.closeTicket(this.domain, code).subscribe(async (res:any)=>{
       if(!res.status){
         this.toastService.presentToast(res.message, 'danger');
       }else if(res.status){
         
         await this.alertService.presentAlert(res.message);
-        this.ngOnInit();
+        this.refreshGrid();
 
       }else{
         this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
       }
     });
   }
+
+  async refreshGrid(){
+    await this.loadingService.presentLoading('Cargando...');
+    
+    await this.storage.get('token').then(
+      async user => {
+        this.code = user.codigo;
+        this.domain = user.dominio;
+
+        await this.dataService.getAssignedTickets(this.domain, this.code).subscribe((res:any)=>{
+
+          this.status = res.status;
+
+          this.items = res.data;
+          this.loadingService.loadingDismiss();
+        });
+      }
+    );
+  }*/
 
 }

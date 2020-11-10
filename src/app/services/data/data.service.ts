@@ -130,4 +130,36 @@ export class DataService {
       map(this.extractData)
     );
   }
+
+  getAreas(userDomain){
+    return this.http.get('https://'+userDomain+this.problemSweeperUrl+'request=get_areas').pipe(
+      map(this.extractData)
+    );
+  }
+
+  getIncidents(userDomain){
+    return this.http.get('https://'+userDomain+this.problemSweeperUrl+'request=get_incidentes').pipe(
+      map(this.extractData)
+    );
+  }
+
+  getPriorities(userDomain){
+    return this.http.get('https://'+userDomain+this.problemSweeperUrl+'request=get_prioridades').pipe(
+      map(this.extractData)
+    );
+  }
+
+  saveTicket(userDomain, campus, category, area, sector, incident, priority, description){
+    return this.http.get('https://'+userDomain+this.problemSweeperUrl+'request=grabar&sede='+campus+'&categoria='
+        +category+'&area='+area+'&sector='+sector+'&incidente='+incident+'&prioridad='+priority+'&descripcion='+description).pipe(
+      map(this.extractData)
+    );
+  }
+
+  modifyTicket(userDomain, code, campus, category, area, sector, incident, priority, description){
+    return this.http.get('https://'+userDomain+this.problemSweeperUrl+'request=modificar&ticket='+code+'&sede='+campus+'&categoria='
+        +category+'&area='+area+'&sector='+sector+'&incidente='+incident+'&prioridad='+priority+'&descripcion='+description).pipe(
+      map(this.extractData)
+    );
+  }
 }

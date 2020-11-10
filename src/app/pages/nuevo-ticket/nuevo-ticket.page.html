@@ -21,74 +21,36 @@
     <hr>
 
     <ion-card-content>
-    <form>
-      <ion-label color="primary">Campos</ion-label>
-
-      <ion-item>
-        <ion-label style="font-size: 13px; color: gray;">Sede</ion-label>
-        <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box">
-          <ion-select-option value="sede1">Sede 1</ion-select-option>
-          <ion-select-option value="sede2">Sede 2</ion-select-option>
-          <ion-select-option value="sede3">Sede 3</ion-select-option>
-          <ion-select-option value="sede4">Sede 4</ion-select-option>
-        </ion-select>
-      </ion-item>
-
-      <ion-item>
-        <ion-label style="font-size: 13px; color: gray;">Sector</ion-label>
-        <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box">
-          <ion-select-option value="sector1">Sector 1</ion-select-option>
-          <ion-select-option value="sector2">Sector 2</ion-select-option>
-          <ion-select-option value="sector3">Sector 3</ion-select-option>
-          <ion-select-option value="sector4">Sector 4</ion-select-option>
-        </ion-select>
-      </ion-item>
+      <ion-label color="primary" style="font-size: 12px;">Campos</ion-label>
       
       <ion-item>
         <ion-label style="font-size: 13px; color: gray;">Área</ion-label>
-        <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box">
-          <ion-select-option value="area1">Área 1</ion-select-option>
-          <ion-select-option value="area2">Área 2</ion-select-option>
-          <ion-select-option value="area3">Área 3</ion-select-option>
-          <ion-select-option value="area4">Área 4</ion-select-option>
-        </ion-select>
-      </ion-item>
-    
-      <ion-item>
-        <ion-label style="font-size: 13px; color: gray;">Categoría</ion-label>
-        <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box">
-          <ion-select-option value="categoria1">Categoría 1</ion-select-option>
-          <ion-select-option value="categoria2">Categoría 2</ion-select-option>
-          <ion-select-option value="categoria3">Categoría 3</ion-select-option>
-          <ion-select-option value="categoria4">Categoría 4</ion-select-option>
+        <ion-select okText="Guardar" cancelText="Cancelar" [(ngModel)]="area" class="combo-box">
+          <ion-select-option *ngFor="let option of areaOptions" [value]="option">{{option.nombre}} - {{option.nivel}}</ion-select-option>
         </ion-select>
       </ion-item>
     
       <ion-item>
         <ion-label style="font-size: 13px; color: gray;">Incidente</ion-label>
-        <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box">
-          <ion-select-option value="incidente1">Incidente 1</ion-select-option>
-          <ion-select-option value="incidente2">Incidente 2</ion-select-option>
-          <ion-select-option value="incidente3">Incidente 3</ion-select-option>
-          <ion-select-option value="incidente4">Incidente 4</ion-select-option>
+        <ion-select okText="Guardar" cancelText="Cancelar" [(ngModel)]="incident" class="combo-box">
+          <ion-select-option *ngFor="let option of incidentOptions" [value]="option">{{option.nombre}}</ion-select-option>
         </ion-select>
       </ion-item>
     
       <ion-item>
         <ion-label style="font-size: 13px; color: gray;">Prioridad</ion-label>
-        <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box">
-          <ion-select-option value="alta">Alta</ion-select-option>
-          <ion-select-option value="media">Media</ion-select-option>
-          <ion-select-option value="baja">Baja</ion-select-option>
+        <ion-select okText="Guardar" cancelText="Cancelar" [(ngModel)]="incident.prioridad" class="combo-box" disabled="true">
+          <ion-select-option *ngFor="let option of priorityOptions" [value]="option.prioridad">{{option.nombre}}</ion-select-option>
         </ion-select>
       </ion-item>
       <hr>
     
-      <ion-label color="primary">Descripción</ion-label>
+      <ion-label color="primary" style="font-size: 12px;">Descripción</ion-label>
       <hr>
       <ion-item lines="none">
-        <ion-textarea id="areaMensaje" name="areaMensaje" placeholder="⌨ Su Mensaje" 
-        [(ngModel)]="mensaje" rows="6" cols="1000" class="textArea-text textArea"></ion-textarea>
+        <ion-textarea id="areaMensaje" name="areaMensaje" placeholder="Su mensaje..." 
+        [(ngModel)]="description" rows="6" cols="1000" class="textArea-text textArea"></ion-textarea>
+        <ion-icon name="chatbox-ellipses" slot="start" style="zoom:0.8;" color="primary"></ion-icon>
       </ion-item>
       <hr>
 
@@ -109,11 +71,10 @@
         Limpiar
       </ion-button>
 
-      <ion-button expand="block" class="list-button" type="submit">
+      <ion-button expand="block" class="list-button" (click)="saveTicket()">
         <ion-icon slot="start" name="save"></ion-icon>
         Guardar
       </ion-button>
-    </form>
   </ion-card-content>
   </ion-card>
 </ion-content>

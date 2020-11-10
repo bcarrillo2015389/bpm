@@ -1,8 +1,8 @@
 ion-content{
-    --background:linear-gradient(
-        rgba(0, 0, 0, 0.7),
-        rgba(0, 0, 0, 0.7)
-      ), url('../../../assets/img/bg-login.jpg') no-repeat center center / cover;
+  --background:linear-gradient(
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.7)
+    ), url('../../../assets/img/bg-login.jpg') no-repeat center center / cover;
 }
 
 ion-item {
@@ -15,38 +15,38 @@ ion-item {
 
 ion-card {
   background-color: #FFF;
-  margin-top: 10%;
+  margin-top: 50px;
   margin-left: 9%;
   margin-right: 9%;
 }
 
 .login-button {
-margin-left: 7%;
-margin-right: 7%;
---background-activated: #CC9796;
+  margin-left: 7%;
+  margin-right: 7%;
+  --background-activated: #CC9796;
 }
 
 .icon {
-color: white;
+  color: white;
 }
 
 .animated {
-animation-duration: 1s;
-animation-fill-mode: both;
+  animation-duration: 1s;
+  animation-fill-mode: both;
 }
 
 @keyframes fadeIn {
-from {
-    opacity: 0;
-}
+  from {
+      opacity: 0;
+  }
 
-to {
-    opacity: 1;
-}
+  to {
+      opacity: 1;
+  }
 }
 
 .fadeIn {
-animation-name: fadeIn;
+  animation-name: fadeIn;
 }
 
 .logoRef {
