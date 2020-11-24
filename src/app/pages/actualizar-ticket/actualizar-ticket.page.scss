@@ -1,9 +1,6 @@
 ion-card-title{
     text-align: center;
-}
-
-ion-card-header{
-    height: 50px;
+    font-size: 20px;
 }
 
 ion-item {
@@ -45,5 +42,15 @@ ion-textarea{
 }
 
 .combo-box{
+    font-size: 13px;
+}
+
+.label-text{
+    font-size: 13px; 
+    color: gray;
+}
+
+.error-container{
+    color: #66615B;
     font-size: 13px;
 }

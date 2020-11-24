@@ -3,8 +3,10 @@ import { DataService } from '../../services/data/data.service';
 import { Storage } from '@ionic/storage';
 import { ToastService } from '../../services/toast/toast.service';
 import { AlertService } from '../../services/alert/alert.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ActionSheetController } from '@ionic/angular';
 import { LoadingService } from '../../services/loading/loading.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { PhotoService } from '../../services/photo/photo.service';
 
 @Component({
   selector: 'app-perfil',
@@ -17,20 +19,24 @@ export class PerfilPage implements OnInit {
   photo;
   default = '../../../assets/img/nofoto.jpg';
 
+  profileForm: FormGroup;
+  pattern: any = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
   //Datos
   code;
   domain;
   principalName;
-  name;
-  email;
-  phone;
 
   constructor(private dataService: DataService, 
               private storage: Storage,
               private toastService: ToastService,
               private alertService: AlertService,
               private alertCtrl:AlertController,
-              private loadingService:LoadingService) { }
+              private loadingService:LoadingService,
+              private actionSheetCtrl:ActionSheetController,
+              private photoService:PhotoService) { 
+                this.profileForm = this.createFormGroup();
+              }
 
   async ngOnInit() {
     await this.loadingService.presentLoading('Cargando...');
@@ -45,39 +51,72 @@ export class PerfilPage implements OnInit {
         });
 
         await this.dataService.getProfileData(this.domain, user.codigo).subscribe((res:any)=>{
-          this.name=res.data.nombre;
+          this.profileForm.controls['name'].setValue(res.data.nombre);
           this.principalName=res.data.nombre;
-          this.email=res.data.mail;
-          this.phone=res.data.telefono;
+          this.profileForm.controls['email'].setValue(res.data.mail);
+          this.profileForm.controls['phone'].setValue(res.data.telefono);
           this.loadingService.loadingDismiss();
         });
       }
     );
   }
 
-  updateProfile(){
-    if(this.name && this.email && this.phone){
-      this.dataService.setProfileData(this.domain, this.code, this.name, this.email, this.phone).subscribe(async (res:any)=>{
-        if(!res.status){
-          this.toastService.presentToast(res.message, 'danger');
-        }else if(res.status){
-          await this.loadingService.presentLoading('Cargando...');
-          this.principalName = this.name;
-
-          this.loadingService.loadingDismiss();
-          this.alertService.presentAlert(res.message);
-          
-        }else{
-          this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
-        }
-      });
-    }else{
-      this.toastService.presentToast('Los campos necesarios no están completos.', 'danger');
-    }
+  createFormGroup(){
+    return new FormGroup({
+      name: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.pattern(this.pattern)]),
+      phone: new FormControl('', [Validators.required])
+    });
   }
 
-  takePicture(){
-    
+  get name(){ return this.profileForm.get('name');}
+  get email(){ return this.profileForm.get('email');}
+  get phone(){ return this.profileForm.get('phone');}
+
+  updateProfile(){
+  this.dataService.setProfileData(this.domain, this.code, this.profileForm.value.name, this.profileForm.value.email, this.profileForm.value.phone).subscribe(async (res:any)=>{
+    if(!res.status){
+      this.toastService.presentToast(res.message, 'danger');
+    }else if(res.status){
+      await this.loadingService.presentLoading('Cargando...');
+      this.principalName = this.profileForm.value.name;
+
+      this.loadingService.loadingDismiss();
+      this.alertService.presentAlert(res.message);
+      
+    }else{
+      this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
+    }
+  });
+  }
+
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Opciones',
+      backdropDismiss:true,
+      buttons: [
+      {
+        text: 'Cámara',
+        icon: 'camera',
+        cssClass:'action-item',
+        handler: () => {
+          this.takePhoto();
+        }
+      }, {
+        text: 'Galería',
+        icon: 'image',
+        cssClass:'action-item',
+        handler: () => {
+          this.getGalleryPhoto();
+        }
+      }, {
+        text: 'Cancelar',
+        icon: 'close',
+        cssClass:'cancel-item',
+        role: 'cancel'
+      }]
+    });
+    await actionSheet.present();
   }
 
   cleanInputs(){
@@ -107,5 +146,62 @@ export class PerfilPage implements OnInit {
 
     await alert.present();
   }
+
+  async takePhoto(){
+    await this.loadingService.presentLoading('Cargando...');
+    let result = await this.photoService.takePhoto();
+
+    const file = this.dataURLtoFile(result.dataUrl, 'perfil.jpg');
+
+    this.dataService.updateProfilePhoto(this.domain, this.code, file).subscribe(async (res:any)=>{
+      if(!res.status){
+        this.toastService.presentToast(res.message, 'danger');
+
+      }else if(res.status){
+        await this.ngOnInit();
+        this.alertService.presentAlert(res.message);
+        
+      }else{
+        this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
+      }
+      
+      this.loadingService.loadingDismiss();
+    });
+  }
+
+  async getGalleryPhoto(){
+    await this.loadingService.presentLoading('Cargando...');
+    let result = await this.photoService.getGalleryPhoto();
+
+    const file = this.dataURLtoFile(result.dataUrl, 'perfil.jpg');
+
+    this.dataService.updateProfilePhoto(this.domain, this.code, file).subscribe(async (res:any)=>{
+      if(!res.status){
+        this.toastService.presentToast(res.message, 'danger');
+
+      }else if(res.status){
+        await this.ngOnInit();
+        this.alertService.presentAlert(res.message);
+
+      }else{
+        this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
+      }
+      
+      this.loadingService.loadingDismiss();
+    });
+  }
+
+  dataURLtoFile(dataurl, filename) {
+    // tslint:disable-next-line: one-variable-per-declaration
+    let arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+    while (n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type: mime});
+}
 
 }

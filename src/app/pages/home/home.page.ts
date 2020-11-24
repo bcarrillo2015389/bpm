@@ -101,4 +101,9 @@ export class HomePage implements OnInit {
       }
     });
   }
+
+  async doRefresh(ev){
+    await this.ionViewWillEnter();
+    ev.target.complete();
+  }
 }

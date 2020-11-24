@@ -6,12 +6,12 @@
 
 ion-card-header{
     --background:url('../../../assets/img/bg-contact.jpg') no-repeat center center / cover;
-    height: 100px;
+    height: 160px;
     border-radius: 5px;
 }
 
 ion-card{
-    margin-top: 40px;
+    margin-top: 20px;
     background-color: #FFF;
     margin-left: 7%;
     margin-right: 7%;
@@ -22,8 +22,8 @@ ion-avatar{
     margin: auto;
     top: -50px;
     margin-bottom: -65px;
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     box-shadow: 0 0 0 12px #F0F0F0;
 }
 
@@ -52,4 +52,17 @@ ion-item {
     border-radius: 14px;
     margin-bottom: 12px;
     margin-top: 12px;
+}
+
+.error-container{
+    color: #66615B;
+    font-size: 13px;
+}
+
+.container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

@@ -2,7 +2,7 @@
   <ion-toolbar color="dark">
 
     <ion-buttons slot="start">
-      <ion-back-button color="primary" defaultHref="/home"></ion-back-button>
+      <ion-back-button mode="md" color="primary" defaultHref="/home"></ion-back-button>
     </ion-buttons>
 
     <ion-icon slot="start" name="cog" class="icon-toolbar"></ion-icon>
@@ -21,35 +21,54 @@
     <hr>
 
     <ion-card-content>
-      <ion-label color="primary">Campos</ion-label>
+      <form (ngSubmit)="modifyTicket()" [formGroup]="ticketForm">
 
-      <ion-item>
-        <ion-label style="font-size: 13px; color: gray;">Área</ion-label>
-        <ion-select okText="Guardar" cancelText="Cancelar" [(ngModel)]="area" class="combo-box">
+      <ion-label color="primary" style="font-size: 12px;">Campos</ion-label>
+
+      <!--Área-->
+      <ion-item mode="md">
+        <ion-label class="label-text">Área</ion-label>
+        <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box" formControlName="area">
           <ion-select-option *ngFor="let option of areaOptions" [value]="option">{{option.nombre}} - {{option.nivel}}</ion-select-option>
         </ion-select>
       </ion-item>
+
+      <!--Advertencia-->
+      <div class="errors" *ngIf="area.invalid && (area.dirty || area.touched)">
+        <span *ngIf="area.errors.required">
+          <ion-label class="error-container">Este campo es requerido</ion-label>
+        </span>
+      </div>
     
-      <ion-item>
-        <ion-label style="font-size: 13px; color: gray;">Incidente</ion-label>
-        <ion-select okText="Guardar" cancelText="Cancelar" [(ngModel)]="incident" class="combo-box">
+      <!--Incidente-->
+      <ion-item mode="md">
+        <ion-label class="label-text">Incidente</ion-label>
+        <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box" formControlName="incident">
           <ion-select-option *ngFor="let option of incidentOptions" [value]="option">{{option.nombre}}</ion-select-option>
         </ion-select>
       </ion-item>
+
+      <!--Advertencia-->
+      <div class="errors" *ngIf="incident.invalid && (incident.dirty || incident.touched)">
+        <span *ngIf="incident.errors.required">
+          <ion-label class="error-container">Este campo es requerido</ion-label>
+        </span>
+      </div>
     
       <ion-item>
-        <ion-label style="font-size: 13px; color: gray;">Prioridad</ion-label>
-        <ion-select okText="Guardar" cancelText="Cancelar" [(ngModel)]="incident.prioridad" class="combo-box" disabled="true">
+        <ion-label class="label-text">Prioridad</ion-label>
+        <ion-select okText="Guardar" cancelText="Cancelar" class="combo-box" disabled="true" [value]="this.ticketForm.value.incident.prioridad" >
           <ion-select-option *ngFor="let option of priorityOptions" [value]="option.prioridad">{{option.nombre}}</ion-select-option>
         </ion-select>
       </ion-item>
       <hr>
     
-      <ion-label color="primary">Descripción</ion-label>
+      <ion-label class="label-text">Descripción</ion-label>
       <hr>
-      <ion-item lines="none">
+      <ion-item mode="md">
         <ion-textarea id="areaMensaje" name="areaMensaje" placeholder="Su mensaje..." 
-        [(ngModel)]="description" rows="6" cols="1000" class="textArea-text textArea"></ion-textarea>
+        rows="6" cols="1000" class="textArea-text textArea" formControlName="description">
+        </ion-textarea>
         <ion-icon name="chatbox-ellipses" slot="start" style="zoom:0.8;" color="primary"></ion-icon>
       </ion-item>
       <hr>
@@ -71,10 +90,12 @@
         Limpiar
       </ion-button>
 
-      <ion-button expand="block" class="list-button" (click)="modifyTicket()">
-        <ion-icon slot="start" name="save"></ion-icon>
+      <ion-button expand="block" class="list-button" type="submit" [disabled]="!ticketForm.valid">
         Guardar
+        <ion-icon slot="start" name="save" style="zoom:1.3;"></ion-icon> &nbsp;
       </ion-button>
+    </form>
+    
   </ion-card-content>
   </ion-card>
 </ion-content>

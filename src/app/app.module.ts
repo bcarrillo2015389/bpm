@@ -19,7 +19,7 @@ import { ComponentsModule } from './components/components.module';
   entryComponents: [],
   imports: [
     BrowserModule, 
-    IonicModule.forRoot(), 
+    IonicModule.forRoot({backButtonText: '', mode:'ios'}), 
     AppRoutingModule, 
     IonicStorageModule.forRoot(),
     FormsModule,

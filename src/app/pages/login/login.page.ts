@@ -7,6 +7,7 @@ import { PopoverLoginComponent } from '../../components/popover-login/popover-lo
 import { UserModel } from '../../models/user.model';
 import { ToastService } from '../../services/toast/toast.service';
 import { LoadingService } from '../../services/loading/loading.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -18,21 +19,33 @@ export class LoginPage implements OnInit {
   @ViewChild('userInput') userInput:IonInput;
   @ViewChild('passwordInput') passwordInput:IonInput;
 
-  user;
-  password;
   showPassword:boolean=false;
   passwordToggleIcon="eye-off-outline";
   token:UserModel;
+
+  loginForm: FormGroup;
 
   constructor(private popoverCtrl:PopoverController, 
               private router: Router,
               private dataService:DataService,
               private storage:Storage,
               private toastService:ToastService,
-              private loadingService:LoadingService) { }
+              private loadingService:LoadingService) { 
+                this.loginForm = this.createFormGroup();
+              }
 
   ngOnInit() {
   }
+
+  createFormGroup(){
+    return new FormGroup({
+      user: new FormControl('',[Validators.required]),
+      password: new FormControl('', [Validators.required])
+    });
+  }
+
+  get user() {return this.loginForm.get('user');}
+  get password() {return this.loginForm.get('password');}
 
   async togglePassword(){
     //Enfoca el cursor en el Input de User
@@ -46,42 +59,29 @@ export class LoginPage implements OnInit {
     this.passwordInput.setFocus();
   }
 
-  focus(){
-    this.passwordInput.setFocus();
-  }
-
   userLogin(){
-    if(this.user && this.password){
-      this.dataService.handleLogin(this.user, this.password).subscribe( async (res:any)=>{
-        if(!res.status){
-          this.toastService.presentToast(res.message, 'danger');
-        }else if(res.status){
-           
-          await this.loadingService.presentLoading('Iniciando sesión...');
+    this.dataService.handleLogin(this.loginForm.value.user, this.loginForm.value.password).subscribe( async (res:any)=>{
+      if(!res.status){
+        this.toastService.presentToast(res.message, 'danger');
+      }else if(res.status){
+        await this.loadingService.presentLoading('Iniciando sesión...');
 
-          //Limpiar los inputs
-          let inputs = document.getElementsByTagName('ion-input');
-          for (let i = 0; i < inputs.length; i++) {
-            inputs[i].value='';
-          }
-          
-          //Almecanar token en Storage
-          this.token = new UserModel(res.data.codigo, res.data.nombre, res.data.rol, res.data.sedes_in, res.data.categorias_in, res.data.dominio);
-          this.storage.set('token',this.token);
-
-          //Enrutamiento a home
-          this.router.navigateByUrl('home');
-          this.loadingService.loadingDismiss();
-          this.toastService.presentToast('Bienvenido  '+ res.data.nombre, 'dark');
+        //Limpiar los inputs
+        this.loginForm.reset();
         
-          
-        }else{
-          this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
-        }
-      });
-    }else{
-      this.toastService.presentToast('Los campos necesarios no están completos.', 'danger');
-    }
+        //Almecanar token en Storage
+        this.token = new UserModel(res.data.codigo, res.data.nombre, res.data.rol, res.data.sedes_in, res.data.categorias_in, res.data.dominio);
+        this.storage.set('token',this.token);
+
+        //Enrutamiento a home
+        this.router.navigateByUrl('home');
+        this.loadingService.loadingDismiss();
+      
+        
+      }else{
+        this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
+      }
+    });
   }
 
   async presentPopover(ev:any){

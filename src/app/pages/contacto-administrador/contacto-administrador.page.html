@@ -1,12 +1,12 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar color="dark">
+  <ion-toolbar color="light">
 
     <ion-buttons slot="start">
-      <ion-back-button color="primary" defaultHref="/login"></ion-back-button>
+      <ion-back-button mode="md" color="primary" defaultHref="/login"></ion-back-button>
     </ion-buttons>
 
-    <ion-icon slot="start" name="people" class="icon-toolbar"></ion-icon>
-    <ion-title>Contacto Administrador</ion-title>
+    <ion-icon slot="start" name="people" class="icon-toolbar" color="primary"></ion-icon>
+    <ion-title color="primary">Contacto Soporte</ion-title>
     
   </ion-toolbar>
 </ion-header>
@@ -16,46 +16,76 @@
     <ion-card-content>
 
     <!-- Login form -->
-    <form>
+    <form (ngSubmit)="handleContactAdmin()" [formGroup]="contactForm">
         <ion-img src="../../../assets/img/icon.png" class="logoRef"> </ion-img>
 
       <!--Nombre-->
       <ion-label class="label-text">Nombre</ion-label>
-      <ion-item lines="none" class="input-item">
-          <ion-icon name="person" style="zoom:0.8;" color="primary"></ion-icon> &nbsp;&nbsp;
-          
-        <ion-input disabled="false" type="text" [(ngModel)]="name" name="name" class="input-text"></ion-input>
+      <ion-item mode="md" class="input-item">
+        <ion-icon name="person-outline" style="zoom:0.8;" color="primary"></ion-icon> &nbsp;&nbsp;  
+        <ion-input type="text" class="input-text" clearInput formControlName="name"></ion-input>
       </ion-item>
+
+      <!--Advertencia-->
+      <div class="errors" *ngIf="name.invalid && (name.dirty || name.touched)">
+        <span *ngIf="name.errors.required">
+          <ion-label class="error-container">Este campo es requerido</ion-label>
+        </span>
+      </div>
 
       <!--Email-->
       <ion-label class="label-text">Dirección de email</ion-label>
-      <ion-item lines="none" class="input-item">
-        <ion-icon name="mail-open" style="zoom:0.8;" color="primary"></ion-icon> &nbsp;&nbsp;
-        <ion-input disabled="false" type="email" [(ngModel)]="email" name="email" class="input-text"></ion-input>
+      <ion-item mode="md" class="input-item">
+        <ion-icon name="mail-open-outline" style="zoom:0.8;" color="primary"></ion-icon> &nbsp;&nbsp;
+        <ion-input type="email" class="input-text" clearInput formControlName="email"></ion-input>
       </ion-item>
+
+      <!--Advertencias-->
+      <div class="errors" *ngIf="email.invalid && (email.dirty || email.touched)">
+        <span *ngIf="email.errors.required">
+          <ion-label class="error-container">Este campo es requerido</ion-label>
+        </span>
+        <span *ngIf="(email.dirty || email.touched) && email.invalid && email.errors.pattern">
+          <ion-label class="error-container">Ingrese un correo válido</ion-label>
+        </span>
+      </div>
 
       <!--Asunto-->
       <ion-label class="label-text">Asunto</ion-label>
-      <ion-item lines="none" class="input-item">
-        <ion-icon name="bookmark" style="zoom:0.8;" color="primary"></ion-icon> &nbsp;&nbsp;
-        <ion-input disabled="false" type="text" [(ngModel)]="affair" name="asunto" class="input-text"></ion-input>
+      <ion-item mode="md" class="input-item">
+        <ion-icon name="bookmark-outline" style="zoom:0.8;" color="primary"></ion-icon> &nbsp;&nbsp;
+        <ion-input type="text" class="input-text" clearInput formControlName="affair"></ion-input>
       </ion-item>
 
-      <!--Su Mensaje-->
+      <!--Advertencia-->
+      <div class="errors" *ngIf="affair.invalid && (affair.dirty || affair.touched)">
+        <span *ngIf="affair.errors.required">
+          <ion-label class="error-container">Este campo es requerido</ion-label>
+        </span>
+      </div>
+
+      <!--Mensaje-->
       <ion-label class="label-text">Descripción</ion-label>
-      <ion-item lines="none" class="input-item">
+      <ion-item mode="md" class="input-item">
         <ion-textarea id="areaMensaje" name="areaMensaje" placeholder="Su mensaje..." 
-          [(ngModel)]="message" rows="4" cols="1000" class="textArea-text textArea">
+          rows="4" cols="1000" class="textArea-text textArea" formControlName="message">
         </ion-textarea>
-        <ion-icon name="chatbox-ellipses" slot="start" style="zoom:0.8;" color="primary"></ion-icon>
+        <ion-icon name="chatbox-ellipses-outline" slot="start" style="zoom:0.8;" color="primary"></ion-icon>
       </ion-item>
+
+      <!--Advertencia-->
+      <div class="errors" *ngIf="message.invalid && (message.dirty || message.touched)">
+        <span *ngIf="message.errors.required">
+          <ion-label class="error-container">Este campo es requerido</ion-label>
+        </span>
+      </div>
 
       <hr>
 
       <!--Botón de formulario-->
-      <ion-button expand="block" class="login-button" color="primary" (click)="handleContactAdmin()">
-        <ion-icon name="send-outline" style="zoom:1.3;"></ion-icon> &nbsp;
-        <p class="icon"> Enviar </p>
+      <ion-button expand="block" class="login-button" color="primary" type="submit" [disabled]="!contactForm.valid">
+        Enviar
+        <ion-icon name="send-outline" slot="start" style="zoom:1.3;"></ion-icon> &nbsp;
       </ion-button>
     </form>
 

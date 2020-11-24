@@ -3,6 +3,7 @@ import { DataService } from '../../services/data/data.service';
 import { ToastService } from '../../services/toast/toast.service';
 import { AlertService } from '../../services/alert/alert.service';
 import { LoadingService } from '../../services/loading/loading.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-recuperar-password',
@@ -11,39 +12,42 @@ import { LoadingService } from '../../services/loading/loading.service';
 })
 export class RecuperarPasswordPage implements OnInit {
   
-  email;
+  passwordForm: FormGroup;
+  pattern: any = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   constructor(private dataService:DataService, 
               private toastService:ToastService,
               private alertService: AlertService,
-              private loadingService:LoadingService) { }
+              private loadingService:LoadingService) { 
+                this.passwordForm = this.createFormGroup();
+              }
 
   ngOnInit() {
   }
 
+  createFormGroup(){
+    return new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.pattern(this.pattern)])
+    });
+  }
+
+  get email(){ return this.passwordForm.get('email');}
+
   recoverPassword(){
-    if(this.email){
-      this.dataService.handleRecoverPassword(this.email).subscribe( async (res:any)=>{
-        if(!res.status){
-          this.toastService.presentToast(res.message, 'danger');
-        }else if(res.status){
-          await this.loadingService.presentLoading('Cargando...');
+    this.dataService.handleRecoverPassword(this.passwordForm.value.email).subscribe( async (res:any)=>{
+      if(!res.status){
+        this.toastService.presentToast(res.message, 'danger');
+      }else if(res.status){
+        await this.loadingService.presentLoading('Cargando...');
+        //Limpiar los inputs
+        this.passwordForm.reset();
+        
+        this.loadingService.loadingDismiss();
+        this.alertService.presentAlert(res.message);
 
-          //Limpiar los inputs
-          let inputs = document.getElementsByTagName('ion-input');
-          for (let i = 0; i < inputs.length; i++) {
-            inputs[i].value='';
-          }
-
-          this.loadingService.loadingDismiss();
-          this.alertService.presentAlert(res.message);
-
-        }else{
-          this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
-        }
-      });
-    }else{
-      this.toastService.presentToast('El campo de correo electrónico está incompleto.', 'danger');
-    }
+      }else{
+        this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
+      }
+    });
   }
 }

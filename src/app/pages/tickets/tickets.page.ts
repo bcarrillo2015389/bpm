@@ -55,4 +55,9 @@ export class TicketsPage implements OnInit {
     await modal.present();
   }
 
+  async doRefresh(ev){
+    await this.ngOnInit();
+    ev.target.complete();
+  }
+
 }

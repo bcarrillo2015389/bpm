@@ -2,7 +2,7 @@
   <ion-toolbar color="dark">
 
     <ion-buttons slot="start">
-      <ion-back-button color="primary" defaultHref="/home"></ion-back-button>
+      <ion-back-button mode="md" color="primary" defaultHref="/home"></ion-back-button>
     </ion-buttons>
     
     <ion-icon slot="start" name="file-tray-full" class="icon-toolbar"></ion-icon>
@@ -11,6 +11,11 @@
 </ion-header>
 
 <ion-content>
+
+  <!--Refresher-->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
 <!--Cards-->
 <ion-grid fixed>

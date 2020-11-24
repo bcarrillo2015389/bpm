@@ -12,6 +12,7 @@ export class DataService {
   ayudaUrl = 'https://demo.bpm.gt/ROOT/API/API_ayuda.php?';
   ajustesUrl = '/ROOT/API/API_ajustes.php?';
   problemSweeperUrl = '/ROOT/API/API_problem_sweeper.php?';
+  fotoPerfilUrl = '/ROOT/API/API_foto_perfil.php';
 
   constructor(private http: HttpClient,
               private storage:Storage) { }
@@ -159,6 +160,13 @@ export class DataService {
   modifyTicket(userDomain, code, campus, category, area, sector, incident, priority, description){
     return this.http.get('https://'+userDomain+this.problemSweeperUrl+'request=modificar&ticket='+code+'&sede='+campus+'&categoria='
         +category+'&area='+area+'&sector='+sector+'&incidente='+incident+'&prioridad='+priority+'&descripcion='+description).pipe(
+      map(this.extractData)
+    );
+  }
+
+  updateProfilePhoto(userDomain, code, file){
+    let data = JSON.stringify({usuario:code, photo:file});
+    return this.http.post('https://'+userDomain+this.fotoPerfilUrl, data).pipe(
       map(this.extractData)
     );
   }

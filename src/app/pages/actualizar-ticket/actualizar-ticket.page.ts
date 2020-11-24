@@ -8,6 +8,7 @@ import { AlertService } from '../../services/alert/alert.service';
 import { LoadingService } from '../../services/loading/loading.service';
 import { Storage } from '@ionic/storage';
 import { getLocaleTimeFormat } from '@angular/common';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-actualizar-ticket',
@@ -17,20 +18,19 @@ import { getLocaleTimeFormat } from '@angular/common';
 export class ActualizarTicketPage implements OnInit {
 
   domain;
-  description;
   source;
+
   code;
 
   item:any={};
 
-  area:any={};
   areaOptions:any=[];
-
-  incident:any={};
 
   incidentOptions:any=[];
 
   priorityOptions:any=[];
+
+  ticketForm: FormGroup;
 
   constructor(private route:ActivatedRoute,
               private photoService:PhotoService,
@@ -39,7 +39,9 @@ export class ActualizarTicketPage implements OnInit {
               private toastService:ToastService,
               private alertService:AlertService,
               private loadingService:LoadingService,
-              private storage:Storage) { }
+              private storage:Storage) { 
+                this.ticketForm = this.createFormGroup();
+              }
   
   async ngOnInit(){
 
@@ -63,7 +65,7 @@ export class ActualizarTicketPage implements OnInit {
 
               await this.dataService.getPriorities(this.domain).subscribe(async(res:any)=>{
                 this.priorityOptions = res.data;
-                this.description = this.item.descripcion;
+                this.ticketForm.controls['description'].setValue(this.item.descripcion);
                 
                 await this.fillFields();
                 this.loadingService.loadingDismiss();
@@ -80,13 +82,24 @@ export class ActualizarTicketPage implements OnInit {
 
   async fillFields() {
 
-    this.area = await this.areaOptions.find(item => {
+    this.ticketForm.controls['area'].setValue(await this.areaOptions.find(item => {
       return item.nombre==this.item.area && item.nivel==this.item.nivel
-    });
+    }));
 
-    this.incident = await this.incidentOptions.find(item => item.nombre==this.item.incidente);
-    
+    this.ticketForm.controls['incident'].setValue(await this.incidentOptions.find(item => item.nombre==this.item.incidente));
   }
+
+  createFormGroup(){
+    return new FormGroup({
+      area: new FormControl('', [Validators.required]),
+      incident: new FormControl('', [Validators.required]),
+      description: new FormControl('')
+    });
+  }
+
+  get area(){ return this.ticketForm.get('area');}
+  get incident():any{ return this.ticketForm.get('incident');}
+  get description(){ return this.ticketForm.get('description');}
 
   async presentActionSheet() {
     const actionSheet = await this.actionSheetCtrl.create({
@@ -117,6 +130,7 @@ export class ActualizarTicketPage implements OnInit {
     await actionSheet.present();
   }
 
+  //Función para agregar fotografías de cámara
   async takePhoto(){
     this.source = await this.photoService.takePhoto();
     
@@ -128,6 +142,7 @@ export class ActualizarTicketPage implements OnInit {
     album.appendChild(image);
   }
 
+  //Función para agregar fotografías de la galería
   async getGalleryPhoto(){
     this.source = await this.photoService.getGalleryPhoto();
     
@@ -144,24 +159,20 @@ export class ActualizarTicketPage implements OnInit {
   }
 
   modifyTicket(){
-    if(this.area && this.incident){
-      this.dataService.modifyTicket(this.domain, this.code,this.area.sede, this.incident.categoria, this.area.area, 
-        this.area.sector, this.incident.incidente, this.incident.prioridad, this.description).subscribe(async (res:any)=>{
-          if(!res.status){
-            this.toastService.presentToast(res.message, 'danger');
-      
-          }else if(res.status){
-  
-            await this.ngOnInit();
-            this.alertService.presentAlert(res.message);
-            
-          }else{
-            this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
-          }
-      });
-     }else{
-      this.toastService.presentToast('Los campos necesarios no están completos.', 'danger');
-     }
+    this.dataService.modifyTicket(this.domain, this.code,this.ticketForm.value.area.sede, this.ticketForm.value.incident.categoria, this.ticketForm.value.area.area, 
+      this.ticketForm.value.area.sector, this.ticketForm.value.incident.incidente, this.ticketForm.value.incident.prioridad, this.ticketForm.value.description).subscribe(async (res:any)=>{
+        if(!res.status){
+          this.toastService.presentToast(res.message, 'danger');
+    
+        }else if(res.status){
+
+          await this.ngOnInit();
+          this.alertService.presentAlert(res.message);
+          
+        }else{
+          this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
+        }
+    });
   }
 
 }

@@ -41,100 +41,101 @@
         <!--Sede-->
         <ion-label class="label-text">Sede</ion-label>
         <ion-item lines="none" class="form-item">
-          <ion-input disabled="true" type="text" name="sede" class="input-text" [value]="item.sede"></ion-input>
+          <ion-input readonly="true" type="text" name="sede" class="input-text" [value]="item.sede"></ion-input>
         </ion-item>
 
         <!--Sector-->
         <ion-label class="label-text">Sector</ion-label>
         <ion-item lines="none" class="form-item">
-          <ion-input disabled="true" type="text" name="sector" class="input-text" [value]="item.sector"></ion-input>
+          <ion-input readonly="true" type="text" name="sector" class="input-text" [value]="item.sector"></ion-input>
         </ion-item>
 
         <!--Área-->
         <ion-label class="label-text">Área</ion-label>
         <ion-item lines="none" class="form-item">
-          <ion-input disabled="true" type="text" name="area" class="input-text" [value]="item.area"></ion-input>
+          <ion-input readonly="true" type="text" name="area" class="input-text" [value]="item.area"></ion-input>
         </ion-item>
 
         <!--Nivel-->
         <ion-label class="label-text">Nivel</ion-label>
         <ion-item lines="none" class="form-item">
-          <ion-input disabled="true" type="text" name="nivel" class="input-text" [value]="item.nivel"></ion-input>
+          <ion-input readonly="true" type="text" name="nivel" class="input-text" [value]="item.nivel"></ion-input>
         </ion-item>
 
         <!--Categoría-->
         <ion-label class="label-text">Categoría</ion-label>
         <ion-item lines="none" class="form-item">
-          <ion-input disabled="true" type="text" name="categoria" class="input-text" [value]="item.categoria"></ion-input>
+          <ion-input readonly="true" type="text" name="categoria" class="input-text" [value]="item.categoria"></ion-input>
         </ion-item>
 
         <!--Incidente-->
         <ion-label class="label-text">Incidente</ion-label>
         <ion-item lines="none" class="form-item">
-          <ion-input disabled="true" type="text" name="incidente" class="input-text" [value]="item.incidente"></ion-input>
+          <ion-input readonly="true" type="text" name="incidente" class="input-text" [value]="item.incidente"></ion-input>
         </ion-item>
 
         <!--Prioridad-->
         <ion-label class="label-text">Prioridad</ion-label>
         <ion-item lines="none" class="form-item">
-          <ion-input disabled="true" type="text" name="prioridad" class="input-text" [value]="item.prioridad"></ion-input>
+          <ion-input readonly="true" type="text" name="prioridad" class="input-text" [value]="item.prioridad"></ion-input>
         </ion-item>
 
         <!--Respuesta Planificada-->
         <ion-label class="label-text">Respuesta Planificada</ion-label>
         <ion-item lines="none" class="form-item">
-          <ion-input disabled="true" type="text" name="respuesta" class="input-text" [value]="item.tiempo_respuesta"></ion-input>
+          <ion-input readonly="true" type="text" name="respuesta" class="input-text" [value]="item.tiempo_respuesta"></ion-input>
         </ion-item>
 
         <!--Solución Planificada-->
         <ion-label class="label-text">Solución Planificada</ion-label>
         <ion-item lines="none" class="form-item">
-          <ion-input disabled="true" type="text" name="solucion" class="input-text" [value]="item.tiempo_solucion"></ion-input>
+          <ion-input readonly="true" type="text" name="solucion" class="input-text" [value]="item.tiempo_solucion"></ion-input>
         </ion-item>
 
         <!--Tiempo en Espera o Hold On-->
         <ion-label class="label-text">Tiempo en Espera o Hold On</ion-label>
         <ion-item lines="none" class="form-item">
-          <ion-input disabled="true" type="text" name="tiempo-espera" class="input-text" [value]="item.tiempo_espera"></ion-input>
+          <ion-input readonly="true" type="text" name="tiempo-espera" class="input-text" [value]="item.tiempo_espera"></ion-input>
         </ion-item>
 
         <!--Tiempo Respuesta Efectiva-->
         <ion-label class="label-text">Tiempo Respuesta Efectiva</ion-label>
         <ion-item lines="none" class="form-item">
-          <ion-input disabled="true" type="text" name="tiempo-respuesta" class="input-text" [value]="item.primera_respuesta"></ion-input>
+          <ion-input readonly="true" type="text" name="tiempo-respuesta" class="input-text" [value]="item.primera_respuesta"></ion-input>
         </ion-item>
 
         <!--Tiempo de Solución Efectivo-->
         <ion-label class="label-text">Tiempo de Solución Efectivo</ion-label>
         <ion-item lines="none" class="form-item">
-          <ion-input disabled="true" type="text" name="prioridad" class="input-text" [value]="item.status_solucion"></ion-input>
+          <ion-input readonly="true" type="text" name="prioridad" class="input-text" [value]="item.status_solucion"></ion-input>
         </ion-item>
 
         <!--Descripción-->
         <ion-label class="label-text">Descripción</ion-label>
         <ion-item lines="none" class="form-item">
           <ion-textarea id="areaDescripcion" name="descripcion" [value]="item.descripcion" 
-          disabled="true" rows="5" cols="1000" class="textArea-text textArea">
+          readonly="true" rows="5" cols="1000" class="textArea-text textArea">
         </ion-textarea>
         </ion-item>
 
         <hr>
 
         <!--Imágenes-->
-        <ion-title color="dark" style="text-align: center;">Imágenes por Status</ion-title>
+        <h2 style="text-align: center; color: black;">Imágenes por Status</h2>
         
         <hr>
         
         <div id="photo-album" *ngIf="statusPhotos">
           <!--Fotografías-->
         </div>
-        <ion-title *ngIf="!statusPhotos" style="text-align: center;color: gray; font-size: 13px;">No hay imágenes...</ion-title>
+        <h2 *ngIf="!statusPhotos" style="text-align: center;color: gray; font-size: 13px;">No hay imágenes...</h2>
 
+        <hr>
         <hr>
         <hr>
 
         <!--Usuarios asignados-->
-        <ion-title color="dark" style="text-align: center;">Usuario(s) Asignados</ion-title>
+        <h2 style="text-align: center; color: black;">Usuario(s) Asignados</h2>
         <ion-list>
           <ion-item *ngFor="let user of assignedUsers" class="list-item">
             <ion-label class="list-text">{{user.nombre}}</ion-label>
@@ -149,7 +150,7 @@
         <hr>
 
         <!--Bitácora-->
-      <ion-title color="dark" style="text-align: center;">Bitácora</ion-title>
+        <h2 style="text-align: center; color: black;">Bitácora</h2>
 
       <hr>
       

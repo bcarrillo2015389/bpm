@@ -1,5 +1,6 @@
 ion-card-title{
     text-align: center;
+    font-size: 20px;
 }
 
 ion-item {
@@ -44,6 +45,21 @@ ion-textarea{
     font-size: 13px;
 }
 
-ion-card-header{
-    height: 50px;
+.label-text{
+    font-size: 13px; 
+    color: gray;
 }
+
+.error-container{
+    color: #66615B;
+    font-size: 13px;
+}
+
+.imageDefault{
+    height: 65%;
+    width: 65%;
+    display: block;
+    margin:auto;
+    border-radius: 15px 15px 15px 15px;
+}
+  

@@ -7,7 +7,7 @@ ion-content{
 
 ion-item {
   --border-color: transparent !important;
-  --background: #F4F3EF;
+  --background: #F7F7F6;
   border-radius: 14px;
   margin-bottom: 14px;
   margin-top: 14px;
@@ -24,10 +24,6 @@ ion-card {
   margin-left: 7%;
   margin-right: 7%;
   --background-activated: #CC9796;
-}
-
-.icon {
-  color: white;
 }
 
 .animated {
@@ -75,4 +71,9 @@ ion-card {
   margin-left: 5%;
   width: 20px;
   height: 20px;
+}
+
+.error-container{
+  color: #66615B;
+  font-size: 13px;
 }

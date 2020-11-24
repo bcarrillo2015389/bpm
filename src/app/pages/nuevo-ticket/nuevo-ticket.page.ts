@@ -6,6 +6,8 @@ import { Storage } from '@ionic/storage';
 import { DataService } from '../../services/data/data.service';
 import { ToastService } from '../../services/toast/toast.service';
 import { AlertService } from '../../services/alert/alert.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -16,17 +18,17 @@ import { AlertService } from '../../services/alert/alert.service';
 export class NuevoTicketPage implements OnInit {
   
   domain;
-  description;
   source;
+  mostrarFoto = false;
 
-  area:any={};
   areaOptions:any=[];
 
-  incident:any={};
   incidentOptions:any=[];
 
   priorityOptions:any=[];
   
+  ticketForm: FormGroup;
+
   constructor(private photoService:PhotoService,
               private actionSheetCtrl:ActionSheetController,
               private alertCtrl:AlertController,
@@ -34,7 +36,10 @@ export class NuevoTicketPage implements OnInit {
               private storage:Storage,
               private dataService:DataService,
               private toastService:ToastService,
-              private alertService:AlertService) { }
+              private alertService:AlertService,
+              private domSanitizer:DomSanitizer) { 
+                this.ticketForm = this.createFormGroup();
+              }
 
   async ngOnInit() {
     await this.loadingService.presentLoading('Cargando...');
@@ -59,9 +64,24 @@ export class NuevoTicketPage implements OnInit {
     );
   }
 
+  createFormGroup(){
+    return new FormGroup({
+      area: new FormControl('', [Validators.required]),
+      incident: new FormControl('', [Validators.required]),
+      description: new FormControl('')
+    });
+  }
+
+  get area(){ return this.ticketForm.get('area');}
+  get incident():any{ return this.ticketForm.get('incident');}
+  get description(){ return this.ticketForm.get('description');}
+
+
+  //Función para agregar fotografías de cámara
   async takePhoto(){
     await this.loadingService.presentLoading('Cargando...');
-    this.source = await this.photoService.takePhoto();
+    let result = await this.photoService.takePhoto();
+    this.source = this.domSanitizer.bypassSecurityTrustResourceUrl(result && result.dataUrl);
     
     let album = document.getElementById('photo-album');
     let image = document.createElement('img');
@@ -72,9 +92,11 @@ export class NuevoTicketPage implements OnInit {
     this.loadingService.loadingDismiss();
   }
 
+  //Función para agregar fotografías de la galería
   async getGalleryPhoto(){
     await this.loadingService.presentLoading('Cargando...');
-    this.source = await this.photoService.getGalleryPhoto();
+    let result = await this.photoService.getGalleryPhoto();
+    this.source = this.domSanitizer.bypassSecurityTrustResourceUrl(result && result.dataUrl);
     
     let album = document.getElementById('photo-album');
     let image = document.createElement('img');
@@ -147,10 +169,8 @@ export class NuevoTicketPage implements OnInit {
     await this.loadingService.presentLoading('Cargando...');
 
     //Limpiar los campos del formulario
-    let fields = document.getElementsByTagName('ion-select');
-    for (let i = 0; i < fields.length; i++) {
-      fields[i].value='';
-    }
+    this.ticketForm.reset();
+    this.ticketForm.value.incident = {};
 
     //Limpiar el album de photos
     let album = document.getElementById('photo-album');
@@ -159,17 +179,12 @@ export class NuevoTicketPage implements OnInit {
     for (let i = 0; i < images.length; i++) {
       album.removeChild(images[i]);
     }
-
-    //Limpiar el text-area
-    (<HTMLInputElement>document.getElementById('areaMensaje')).value = '';
   }
 
   saveTicket(){
-   if(this.area && this.incident){
-    this.dataService.saveTicket(this.domain, this.area.sede, this.incident.categoria, this.area.area, 
-      this.area.sector, this.incident.incidente, this.incident.prioridad, this.description).subscribe(async (res:any)=>{
+    this.dataService.saveTicket(this.domain, this.ticketForm.value.area.sede, this.ticketForm.value.incident.categoria, this.ticketForm.value.area.area, 
+      this.ticketForm.value.area.sector, this.ticketForm.value.incident.incidente, this.ticketForm.value.incident.prioridad, this.ticketForm.value.description).subscribe(async (res:any)=>{
         if(!res.status){
-
           this.toastService.presentToast(res.message, 'danger');
 
         }else if(res.status){
@@ -182,9 +197,6 @@ export class NuevoTicketPage implements OnInit {
           this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
         }
     });
-   }else{
-    this.toastService.presentToast('Los campos necesarios no están completos.', 'danger');
-   }
   }
 
 }

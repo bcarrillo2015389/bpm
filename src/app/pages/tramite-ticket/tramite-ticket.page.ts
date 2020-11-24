@@ -90,7 +90,7 @@ export class TramiteTicketPage implements OnInit {
     const {data} = await modal.onWillDismiss();
 
     if(data){
-      this.item.status = data.status;
+      this.ngOnInit();
     }
   }
 

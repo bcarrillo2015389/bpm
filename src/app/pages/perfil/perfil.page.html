@@ -2,7 +2,7 @@
   <ion-toolbar color="dark">
 
     <ion-buttons slot="start">
-      <ion-back-button color="primary" defaultHref="/home"></ion-back-button>
+      <ion-back-button mode="md" color="primary" defaultHref="/home"></ion-back-button>
     </ion-buttons>
 
     <ion-icon slot="start" name="person-circle" class="icon-toolbar"></ion-icon>
@@ -22,39 +22,62 @@
 
     <hr>
     <hr>
-    <h1 style="text-align: center; font-size: 17px; color: black;"><b>{{principalName}}</b></h1>
-    <hr>
+    <ion-card-title class="container">{{principalName}}</ion-card-title>
     <hr>
 
-  <ion-button expand="block" class="picture-button" color="light" (click)="takePicture()">
+  <ion-button expand="block" class="picture-button" color="light" (click)="presentActionSheet()">
     <ion-icon slot="start" name="camera"></ion-icon>
     Cambiar
   </ion-button>
-  <hr>
-  <hr>
+    <hr>
   
     <!-- Profile form -->
-    <form (ngSubmit)="updateProfile()">
+    <form (ngSubmit)="updateProfile()" [formGroup]="profileForm">
+
     <!--Nombre y apellido-->
     <ion-label class="label-text">Nombre y Apellido</ion-label>
-    <ion-item lines="none">
+    <ion-item mode="md">
       <ion-icon name="person" style="zoom:0.8;" color="primary"></ion-icon> &nbsp;&nbsp;
-      <ion-input disabled="false" type="text" [(ngModel)]="name" name="name" class="input-text" clearInput></ion-input>
+      <ion-input type="text" class="input-text" clearInput formControlName="name"></ion-input>
     </ion-item>
+
+    <!--Advertencia-->
+    <div class="errors" *ngIf="name.invalid && (name.dirty || name.touched)">
+      <span *ngIf="name.errors.required">
+        <ion-label class="error-container">Este campo es requerido</ion-label>
+      </span>
+    </div>
 
     <!--Email-->
     <ion-label class="label-text">Dirección de email</ion-label>
-    <ion-item lines="none">
+    <ion-item mode="md">
       <ion-icon name="mail" style="zoom:0.8;" color="primary"></ion-icon> &nbsp;&nbsp;
-      <ion-input disabled="false" type="email" [(ngModel)]="email" name="email" class="input-text" clearInput></ion-input>
+      <ion-input type="email" class="input-text" clearInput formControlName="email"></ion-input>
     </ion-item>
+
+    <!--Advertencias-->
+    <div class="errors" *ngIf="email.invalid && (email.dirty || email.touched)">
+      <span *ngIf="email.errors.required">
+        <ion-label class="error-container">Este campo es requerido</ion-label>
+      </span>
+      <span *ngIf="(email.dirty || email.touched) && email.invalid && email.errors.pattern">
+        <ion-label class="error-container">Ingrese un correo válido</ion-label>
+      </span>
+    </div>
 
     <!--Teléfono-->
     <ion-label class="label-text">Teléfono</ion-label>
-    <ion-item lines="none">
+    <ion-item mode="md">
       <ion-icon name="call" style="zoom:0.8;" color="primary"></ion-icon> &nbsp;&nbsp;
-      <ion-input disabled="false" type="number" [(ngModel)]="phone" name="asunto" class="input-text" clearInput></ion-input>
+      <ion-input type="number" class="input-text" clearInput formControlName="phone"></ion-input>
     </ion-item>
+
+    <!--Advertencia-->
+    <div class="errors" *ngIf="phone.invalid && (phone.dirty || phone.touched)">
+      <span *ngIf="phone.errors.required">
+        <ion-label class="error-container">Este campo es requerido</ion-label>
+      </span>
+    </div>
 
     <hr>
 
@@ -64,9 +87,9 @@
       Limpiar
     </ion-button>
 
-    <ion-button expand="block" class="list-button" type="submit" color="dark">
-      <ion-icon slot="start" name="save"></ion-icon>
+    <ion-button expand="block" class="list-button" type="submit" color="dark" [disabled]="!profileForm.valid">
       Guardar
+      <ion-icon slot="start" name="save" style="zoom:1.3;"></ion-icon> &nbsp;
     </ion-button>
   </form>
   </ion-card-content>

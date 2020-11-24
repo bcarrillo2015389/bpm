@@ -5,6 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { ToastService } from '../../services/toast/toast.service';
 import { AlertService } from '../../services/alert/alert.service';
 import { LoadingService } from '../../services/loading/loading.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-password',
@@ -15,18 +16,19 @@ export class PasswordPage implements OnInit {
 
   code;
   domain;
-  name;
-  user;
 
-  password;
-  confirmPassword;
+  //Iconos de estado de contraseñas
   statusIcon1;
   statusIcon2;
+
+  //Colores de estado de contraseñas
   status1;
   status2;
 
   securityPassword=0;
   passwordStatus='primary';
+
+  passwordForm: FormGroup;
 
 
 
@@ -35,9 +37,13 @@ export class PasswordPage implements OnInit {
               private alertCtr:AlertController,
               private toastService:ToastService,
               private alertService:AlertService,
-              private loadingService:LoadingService) { }
+              private loadingService:LoadingService) {
+                this.passwordForm = this.createFormGroup();
+              }
 
   async ngOnInit() {
+    this.passwordForm.reset();
+
     await this.loadingService.presentLoading('Cargando...');
 
     await this.storage.get('token').then(
@@ -46,10 +52,9 @@ export class PasswordPage implements OnInit {
         this.domain = user.dominio;
 
         await this.dataService.getPasswordData(this.domain, this.code).subscribe((res:any)=>{
-          this.name=res.data.nombre;
-          this.user=res.data.usu;
-          this.password=undefined;
-          this.confirmPassword=undefined;
+          this.passwordForm.controls['name'].setValue(res.data.nombre);
+          this.passwordForm.controls['user'].setValue(res.data.usu);
+
           this.loadingService.loadingDismiss();
         });
       }
@@ -61,28 +66,35 @@ export class PasswordPage implements OnInit {
     this.status2='light';
   }
 
+  createFormGroup(){
+    return new FormGroup({
+      name: new FormControl({value: '', disabled: true}, [Validators.required]),
+      user: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
+      confirmPassword: new FormControl('', [Validators.required])
+    });
+  }
+
+  get name(){ return this.passwordForm.get('name');}
+  get user(){ return this.passwordForm.get('user');}
+  get password(){ return this.passwordForm.get('password');}
+  get confirmPassword(){ return this.passwordForm.get('confirmPassword');}
+
 
   updatePassword(){
-    if(this.name && this.user && this.password && this.confirmPassword){
-      if(this.password!=this.confirmPassword){
-        this.toastService.presentToast('Los contraseña y la confirmación de la misma no concuerdan. Intente nuevamente.', 'danger');
+    this.dataService.setPasswordData(this.domain, this.code, this.passwordForm.value.user, this.passwordForm.value.password).subscribe(async (res:any)=>{
+      if(!res.status){
+        this.toastService.presentToast(res.message, 'danger');
+      }else if(res.status){ 
+
+        //Limpiar inputs
+        await this.ngOnInit();
+        this.alertService.presentAlert(res.message);
+        
       }else{
-        this.dataService.setPasswordData(this.domain, this.code, this.user, this.password).subscribe(async (res:any)=>{
-          if(!res.status){
-            this.toastService.presentToast(res.message, 'danger');
-          }else if(res.status){            
-            //Limpiar inputs
-            await this.ngOnInit();
-            this.alertService.presentAlert(res.message);
-            
-          }else{
-            this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
-          }
-        })
+        this.toastService.presentToast('Ha ocurrido un error desconocido. Intente de nuevo.', 'danger');
       }
-    }else{
-      this.toastService.presentToast('Los campos necesarios no están completos.', 'danger');
-    }
+    });
   }
 
   cleanInputs(){
@@ -124,10 +136,10 @@ export class PasswordPage implements OnInit {
       }
     }
 
-    if(this.confirmPassword !=undefined && this.confirmPassword!='' && event !=this.confirmPassword){
+    if(this.passwordForm.value.confirmPassword !=undefined && this.passwordForm.value.confirmPassword!='' && event != this.passwordForm.value.confirmPassword){
       this.statusIcon2='close-circle';
       this.status2='danger';
-    }else if(this.confirmPassword !=undefined && this.confirmPassword!='' && event==this.confirmPassword){
+    }else if(this.passwordForm.value.confirmPassword !=undefined && this.passwordForm.value.confirmPassword!='' && event == this.passwordForm.value.confirmPassword){
       this.statusIcon2='checkmark-circle';
       this.status2='success';
     }
@@ -150,7 +162,7 @@ export class PasswordPage implements OnInit {
       this.statusIcon2='ellipsis-horizontal';
       this.status2='light';
     }else{
-      if(event!=this.password){
+      if(event!=this.passwordForm.value.password){
         this.statusIcon2='close-circle';
         this.status2='danger';
       }else{

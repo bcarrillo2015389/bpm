@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 
 @Injectable({
@@ -7,7 +6,7 @@ import { Plugins, CameraResultType, CameraSource } from '@capacitor/core';
 })
 export class PhotoService {
 
-  constructor(private domSanitizer:DomSanitizer) { }
+  constructor() { }
 
   async takePhoto(){
     const { Camera } = Plugins;
@@ -19,7 +18,7 @@ export class PhotoService {
       saveToGallery:true
     });
 
-    return this.domSanitizer.bypassSecurityTrustResourceUrl(result && result.dataUrl);
+    return result;
   }
 
   async getGalleryPhoto(){
@@ -31,6 +30,6 @@ export class PhotoService {
       resultType: CameraResultType.DataUrl,
     });
 
-    return this.domSanitizer.bypassSecurityTrustResourceUrl(result && result.dataUrl);
+    return result;
   }
 }

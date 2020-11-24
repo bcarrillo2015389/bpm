@@ -1,19 +1,24 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar color="dark">
+<ion-header>
+  <ion-toolbar color="light">
     
     <ion-buttons slot="start">
       <ion-button (click)="presentPopover($event)" color="primary">
-        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+        <ion-icon slot="icon-only" name="ellipsis-vertical" color="primary"></ion-icon>
       </ion-button>
     </ion-buttons>
 
-    <ion-icon slot="start" name="briefcase" class="icon-toolbar"></ion-icon>
+    <ion-icon slot="start" name="briefcase" class="icon-toolbar" color="primary"></ion-icon>
 
-    <ion-title>Problem Sweeper</ion-title>
+    <ion-title color="primary">Problem Sweeper</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <!--Refresher-->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
   <hr>
   <hr>
 
@@ -36,7 +41,7 @@
   <hr>
   <hr>
   <div style="margin-left: 7.5%;">
-    <ion-icon name="alert-circle" style="zoom:1.4;"></ion-icon>
+    <ion-icon name="file-tray-stacked-outline" style="zoom:1.5;"></ion-icon>
   </div>
 
   <div>

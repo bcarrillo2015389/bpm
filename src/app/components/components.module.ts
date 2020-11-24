@@ -7,7 +7,7 @@ import { PopoverLoginComponent } from './popover-login/popover-login.component';
 import { TicketsGridComponent } from './tickets-grid/tickets-grid.component';
 import { TicketModalComponent } from './ticket-modal/ticket-modal.component';
 import { StatusModalComponent } from './status-modal/status-modal.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -30,7 +30,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     IonicModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class ComponentsModule { }

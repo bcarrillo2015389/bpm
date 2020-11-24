@@ -12,12 +12,9 @@ ion-card {
     margin-right: 5%;
 }
 
-ion-card-header{
-    height: 50px;
-}
-
 ion-card-title{
     text-align: center;
+    font-size: 20px;
 }
 
 .icon-toolbar{
@@ -34,6 +31,7 @@ ion-card-title{
   
 .input-text{
     font-size: 13px;
+    color:var(--ion-color-secondary);
 }
 
 .textArea-text{
